@@ -17,14 +17,17 @@
 - [6 friction](./6_friction)
 
 ## About This Page
-ディアボロの力学について解説する個人ページです。
-もともとnoteでやっていたものを移植しました。(https://note.com/jwhatever/n/n10b5fdf176a0)
+ディアボロの力学について解説する個人ページです。  
+もともとnoteでやっていたものを移植しました。  
+[https://note.com/jwhatever/n/n10b5fdf176a0](https://note.com/jwhatever/n/n10b5fdf176a0)  
 気が向いたら随時更新するかもしれません。
 
-Hosted by Github Pages
-https://github.com/Shumpei-research/dianote
+Hosted by Github Pages  
+[https://github.com/Shumpei-research/dianote](https://github.com/Shumpei-research/dianote)
+
 
 Maintained by Shumpei Morita
 
-The github pages setting was cloned from:
-https://github.com/kino-3/github-pages-template
+
+The github pages setting was cloned from  
+[https://github.com/kino-3/github-pages-template](https://github.com/kino-3/github-pages-template)
