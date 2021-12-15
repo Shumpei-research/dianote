@@ -16,13 +16,15 @@
 
 - [6 friction](./6_friction)
 
+- [7 rotation](./7_rotation)
+
 ## About This Page
 ディアボロの力学について解説する個人ページです。  
 もともとnoteでやっていたものを移植しました。  
 [https://note.com/jwhatever/n/n10b5fdf176a0](https://note.com/jwhatever/n/n10b5fdf176a0)  
 気が向いたら随時更新するかもしれません。
 
-Hosted by Github Pages  
+Hosted on Github Pages  
 [https://github.com/Shumpei-research/dianote](https://github.com/Shumpei-research/dianote)
 
 
