@@ -19,6 +19,7 @@
 - [7 理論 ディアボロの回転](./7_rotation)
 
 ## About This Page
+
 ディアボロの力学について解説する個人ページです。  
 もともとnoteでやっていたものを移植しました。  
 [https://note.com/jwhatever/n/n10b5fdf176a0](https://note.com/jwhatever/n/n10b5fdf176a0)  
