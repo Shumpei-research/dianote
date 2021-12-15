@@ -4,19 +4,19 @@
 
 <!-- - [MathJax の動作確認](./mathjax-test) -->
 
-- [1 prologue](./1_prologue)
+- [1 プロローグ (工事中)](./1_prologue)
 
-- [2 ellipsoid](./2_ellipsoid)
+- [2 理論 楕円軌道](./2_ellipsoid)
 
-- [3 push](./3_push)
+- [3 技 押す](./3_push)
 
-- [4 toss](./4_toss)
+- [4 技 ハイトス](./4_toss)
 
-- [5 single nonfriction hold](./5_singlenofhold)
+- [5 理論 運動方程式-1ディア摩擦無しスティック保持](./5_singlenofhold)
 
-- [6 friction](./6_friction)
+- [6 理論 摩擦](./6_friction)
 
-- [7 rotation](./7_rotation)
+- [7 理論 ディアボロの回転](./7_rotation)
 
 ## About This Page
 ディアボロの力学について解説する個人ページです。  
