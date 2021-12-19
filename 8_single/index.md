@@ -26,7 +26,8 @@ a_{3v} &= a_{3v}(\Delta l , \theta , U_{l} , \Delta u_{l} , U_{v} , u_{3l}, A_{v
 \left[
 \left( u'_{l} + u'_{v} \right)^{2}-
 2\left( \frac{L+\Delta l}{L} \right) u'_{l} u'_{v}
-\right]
+\right] \\
+&= \frac{A_v}{\cos\theta} + B
 \end{aligned} \\
 \left(
 \begin{aligned}
@@ -37,6 +38,7 @@ u'_{v} := u_{3v}\sin\theta - \Delta u_{l} = \frac{\Delta l \dot{\phi}_{3} + L \d
 \end{gather}
 $$
 
+ただしa3vの第二項以下をBとおいた。
 摩擦を導入する場合には、運動方程式の部分を修正する必要がある。
 巻き数 $ \theta ' $ , 摩擦係数c, 軸表面速度w, 正規化慣性モーメントRを用いる。
 $ x_1 $ を右手とする。(鏡写し)
@@ -62,10 +64,35 @@ T_2 = \left(
 $$
 
 以上で摩擦ありの場合に拡張できた。L, c, R, m が道具固有の量。
+具体的にはa3vは既知であるため、そこからT1T2を求め、a3lに代入することで加速度がすべて求められる。
+加速時には、
+
+$$
+\begin{gather}
+a_{3v} = \frac{A_v}{\cos\theta}+B = 
+\frac{\cos\theta(T_1+T_2)}{m} - g\cdot \cos{\phi_3} \\
+T_1 + T_2 = \frac{m}{\cos\theta} \left(
+    \frac{A_v}{\cos\theta}+B+g\cos\phi_{3}
+\right) \\
+T_1+T_2 = (1+e^{-c\theta'})T_1 \\
+T_1-T_2 = (1-e^{-c\theta'})T_1 = -\tanh \left(\frac{c\theta'}{2}\right)(T_1+T_2) \\
+a_{3l} =  \frac{\sin\theta}{m}(T_2 - T_1) - g\sin\phi_{3} \\
+= \tanh\left(\frac{c\theta'}{2}\right)\tan\theta \left(
+    \frac{A_v}{\cos\theta}+B+g\cos\phi_{3}
+\right) - g\sin\phi _{3}
+\end{gather}
+$$
+
 
 ## 2. スティックリリースの導入
 
-スティックを質量Mの質点とみなすと、スティックリリース時には
+そもそもスティックを保持していることによる制約はなんら課していないのだから、
+これまでの式はすべてスティックリリース時にも成立する。
+ただしスティックリリース時には $ a_{iv}, a_{il} $ が未知量になるため、
+Avなどを含む多変数関数のこれまでの式は役に立たない。
+スティックが新たに張力と重力に基づく運動方程式に従うため、
+これを解くことでスティックの運動を記述する必要がある。
+スティックを質量Mの質点とみなすと、
 
 $$
 \begin{gather}
@@ -80,18 +107,18 @@ $$
 ただし
 
 $$
-\begin{alignat}{4}
+\begin{alignat}{2}
 a_{1l} = A_l + \Delta a_l
-&\qquad a_{2l} = A_l - \Delta a_l 
-&\qquad a_{1v} = A_v + \Delta a_v 
+&\qquad a_{2l} = A_l - \Delta a_l \\
+a_{1v} = A_v + \Delta a_v 
 &\qquad a_{2v} = A_v - \Delta a_v \\
 \end{alignat}
 $$
 
-
-
-スティックリリース時にはavが未知量になり、a3vをa1vなどの方程式と連立して解く必要がある。
-1(右手)のみをリリースしている場合には、回転減速時であれば
+$ a_{il} $ についてはこの運動方程式そのもので完結しており、$ a_{iv} $ を解けばよい。
+例えば1(右手)のみをリリースしている場合には、a2 をプレイヤーからの入力とみなし、
+a1vとa3v, a3lを解く必要がある。
+回転加速時であれば
 
 $$
 \begin{gather}
@@ -100,53 +127,59 @@ T_1 = -M(a_{1v} + g\cos\phi _1) \\
 T_2 = -e^{-c\theta '}M(a_{1v}+g\cos\phi _1) \\
 \begin{gathered}
 a_{3v} = -\mu\cos\theta (1+e^{-c\theta '})(a_{1v}+g\cos\phi _1)-g\cos\phi _3 \\
-= \frac{a_{1v}+a_{2v}}{2\cos \theta} +
-\left( u_{3l} - \frac{U_{l}}{\cos \theta} \right) \dot{\phi}_{3} + 
-\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos ^{2} \theta} \dot{\theta}
+= \frac{a_{1v}+a_{2v}}{2\cos \theta} +B
 \end{gathered}
 \end{gather}
 $$
 
 $$
 \begin{gather}
-\begin{gathered}
--a_{1v}(\mu\cos\theta (1+e^{-c\theta '})+\frac{1}{2\cos\theta})= \\
-\frac{a_{2v}}{2\cos\theta} +
-\left( u_{3l} - \frac{U_{l}}{\cos \theta} \right) \dot{\phi}_{3} + 
-\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos ^{2} \theta} \dot{\theta} + 
+\begin{aligned}
+& -a_{1v}(\mu\cos\theta (1+e^{-c\theta '})+\frac{1}{2\cos\theta}) \\
+& =\frac{a_{2v}}{2\cos\theta} + B + 
 g\cos\phi _3 + \mu\cos\theta (1+e^{-c\theta '})g\cos\phi _1
-\end{gathered} \\
-\begin{gathered}
-a_{3v}\left( \frac{1}{\mu\cos\theta(1+e^{-c\theta '})}+2\cos\theta \right) = \\
--g\cos\phi _1 -\frac{1}{\mu\cos\theta(1+e^{-c\theta '})}g\cos\phi _3 + a_{2v} +
-2\left( \cos \theta u_{3l} - U_{l} \right) \dot{\phi}_{3} + 
-2\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos \theta} \dot{\theta}
-\end{gathered} \\
+\end{aligned} \\
+a_{1v} = 
+-\frac{a_{2v} + 2\cos\theta (B + g\cos\phi _3) + 2\mu\cos^2\theta (1+e^{-c\theta '})g\cos\phi _1}
+{1+2\mu\cos^2\theta (1+e^{-c\theta '})} \\
+\begin{aligned}
+& a_{3v}\left( \frac{1}{\mu\cos\theta(1+e^{-c\theta '})}+2\cos\theta \right) = \\
+& a_{2v} -g\cos\phi _1 -\frac{1}{\mu\cos\theta(1+e^{-c\theta '})}g\cos\phi _3 + 
+2\cos\theta B
+\end{aligned} \\
+a_{3v} = \frac{\mu\cos\theta(1+e^{-c\theta '})(a_{2v} - g\cos\phi _1 +2\cos\theta B) -g\cos\phi _3}
+{1+2\mu\cos^2\theta (1+e^{-c\theta '})} \\
+T_{1} = M\left(
+\frac{a_{2v} + 2\cos\theta (B + g\cos\phi _3) - g\cos\phi _1}
+{1+2\mu\cos^2\theta (1+e^{-c\theta '})} 
+\right) \\
+a_{3l}
+= \tanh\left(\frac{c\theta'}{2}\right)\tan\theta \left(
+    a_{3v}+g\cos\phi_{3}
+\right) - g\sin\phi _{3}\\
+=(代入省略) \\
 \end{gather}
 $$
 
 
 のように汚い式になるが、a1vとa3vを保持しているスティック側の加速度a2vの関数として求められる。
-ただしスティックの相対質量 $ \mu $ を定義し用いた。
+ただしスティックの相対質量 $ \mu $ (ふつう0.2くらい)を定義し用いた。
 摩擦が逆方向の場合はcの符号を反転させればよい。
 摩擦を無視した場合はc=0とすればよく、
 
 $$
 \begin{gather}
-T_1 = T_2 = -M(a_{1v} + g\cos\phi _1) \\
-\begin{aligned}
-& -a_{1v}\left(2\mu\cos\theta +\frac{1}{2\cos\theta}\right) \\
-& = \frac{a_{2v}}{2\cos\theta} +
-\left( u_{3l} - \frac{U_{l}}{\cos \theta} \right) \dot{\phi}_{3} + 
-\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos ^{2} \theta} \dot{\theta} + 
-g\cos\phi _3 + 2\mu g \cos\theta \cos\phi _1 
-\end{aligned} \\
-\begin{aligned}
-& a_{3v}\left( \frac{1}{2\mu\cos\theta}+2\cos\theta \right) \\ 
-& = -g\cos\phi _1 -\frac{1}{2\mu\cos\theta}g\cos\phi _3 + a_{2v} +
-2\left( \cos \theta u_{3l} - U_{l} \right) \dot{\phi}_{3} + 
-2\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos \theta} \dot{\theta}
-\end{aligned} \\
+a_{1v} = 
+-\frac{a_{2v} + 2\cos\theta (B + g\cos\phi _3) + 4\mu\cos^2\theta g\cos\phi _1}
+{1+4\mu\cos^2\theta} \\
+a_{3v} = 
+\frac{2\mu\cos\theta(a_{2v} - g\cos\phi _1 +2\cos\theta B) -g\cos\phi _3}
+{1+4\mu\cos^2\theta} \\
+T_{1} = T_2  = M\left(
+\frac{a_{2v} + 2\cos\theta (B + g\cos\phi _3) - g\cos\phi _1}
+{1+4\mu\cos^2\theta} 
+\right) \\
+a_{3l} = - g\sin\phi _{3} \\
 \end{gather}
 $$
 
@@ -188,26 +221,41 @@ T_1 + T_2 &= -M(a_{1v} + a_{2v} + g(\cos\phi _1 + \cos \phi _2)) \\
 \end{gather}
 $$
 
-のように対称性を利用できる。
+直感的にもわかるように、張力比が決まるため、a1vとa2vに線形な関係が制約として課されることになる。
+また対称性を利用できる。
 
 $$
-\begin{align}
+\begin{gather}
+\begin{aligned}
 a_{3v} &=  \frac{\cos\theta(T_1+T_2)}{m} - g\cdot \cos{\phi_3} \\
 &= -2\mu\cos\theta(A_v + g\cos \phi _3 \cos \theta) - g\cos\phi _3 \\
-&= \frac{A_{v}}{\cos \theta} +
-\left( u_{3l} - \frac{U_{l}}{\cos \theta} \right) \dot{\phi}_{3} + 
-\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos ^{2} \theta} \dot{\theta} \\
+&= \frac{A_{v}}{\cos \theta} +B
+\end{aligned} \\
 -\left(2\mu\cos\theta + \frac{1}{\cos\theta}\right)A_v
-&= g\cos\phi _3(2\mu\cos ^2\theta + 1) +
-\left( u_{3l} - \frac{U_{l}}{\cos \theta} \right) \dot{\phi}_{3} + 
-\frac{U_{v}\sin \theta - \Delta u_{l} \cos \theta }{\cos ^{2} \theta} \dot{\theta} \\
-\end{align}
+= g\cos\phi _3(2\mu\cos ^2\theta + 1) +B \\
+A_v = -g\cos\theta\cos\phi _3 - \frac{\cos\theta }
+{1+2\mu\cos^2\theta}B \\
+a_{3v} = -g\cos\phi _3 + \frac{2\mu\cos^2\theta }
+{1+2\mu\cos^2\theta}B\\
+T_1 + T_2 = 2M\frac{\cos\theta }{1+2\mu\cos^2\theta}B \\
+\Delta a_v = \tanh(\frac{c\theta '}{2})A_v + 
+g(\tanh(\frac{c\theta '}{2})\cos\theta\cos\phi _3 + \sin\theta\sin\phi _3) \\
+=-\tanh(\frac{c\theta '}{2})\frac{\cos\theta }
+{1+2\mu\cos^2\theta}B  + g\sin\theta\sin\phi _3\\
+a_{3l}
+= \tanh\left(\frac{c\theta'}{2}\right)\tan\theta \left(
+    a_{3v}+g\cos\phi_{3}
+\right) - g\sin\phi _{3} \\
+=\tanh\left(\frac{c\theta'}{2}\right)\tan\theta \frac{2\mu\cos^2\theta }
+{1+2\mu\cos^2\theta}B - g\sin\phi _{3} \\
+\end{gather}
 $$
 
-直感的にもわかるように、張力比が決まるため、a1vとa2vに線形な関係が制約として課されることになる。
-また張力がAvで書けるため、比較的簡単にAvやa3vを解くことができる。
-あとは順次解いていけば求まるはず。
+張力の和がAvで書けるため、比較的簡単に解くことができる。
+摩擦は $ a_{3l}, \Delta a_{v} $ のみに影響するのは面白い。
 
 このようにスティックリリースの導入は、微分方程式そのものの段階では煩雑だが容易い。
 また直感的にも明らかなように、その運動は相対質量 $ \mu $ によって記述できる。
-しかし、スティックリリース時の運動はおそらくカオス的になり、その解析は私には難しい。
+しかし、スティックリリース時の運動はおそらくカオス的になり、
+例えばこれらを数値的に解いたとして、
+どれだけの時間スケールにわたって妥当な結果を得られるのかは別問題と思われる。
