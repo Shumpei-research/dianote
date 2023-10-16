@@ -20,6 +20,8 @@
 
 - [8 理論 運動方程式-1ディア一般](./8_single)
 
+- [10 Theory](./10_fullmodel)
+
 ## About This Page
 
 ディアボロの力学について解説する個人ページです。  
