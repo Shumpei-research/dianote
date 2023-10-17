@@ -1,6 +1,9 @@
 # Generalized diabolo model and analytical solution
 
-## 1. Definitions
+## 1. Definitions and Preparations
+
+### 1-1. Geometry
+
 Let N diabolos on the string. We number the objects from left to right, left stick being 0 and right stick being N+1, diabolos being 1,...,N.
 With these numberings, position $\boldsymbol{x_i} \: (i=0,...,N+1)$
  and their time-differentials velocity $\boldsymbol{u_i}$ and acceleration $\boldsymbol{a_i}$ are defined.
@@ -33,10 +36,12 @@ Additionally, define so that $0 \le \phi_0 < 2\pi$ .
 Then $\phi_i \: (i=1,...,N+1)$ is intuitively defined as shown below so that you tilt the coordinates as you go from left to right.
 
 $$
-\begin{align}
+\begin{equation}
+\begin{gathered}
 \phi_i := \phi_{i-1} + \frac{\theta_{i-1} - \pi}{2} + \frac{\theta_{i} - \pi}{2}\\
-(\theta_0 = \theta_{N+1} = 0 \text{ for simple expression})
-\end{align}
+(\theta_0 , \theta_{N+1} := 0 \text{ just for simplicity})
+\end{gathered}
+\end{equation}
 $$
 
 In the time-dependent context, $0 \le \phi_0 < 2\pi$ at time 0.
@@ -59,7 +64,8 @@ and so on.
 Accordingly, redundancy of $\theta_i$ can be determined based on the knot degree, $2k_i\pi \le \theta_i < 2(k_i+1)\pi$
 
 Note that $-\pi \le \theta_i < \pi$ means that the diabolo would be flying and is not physically allowed.
-This "flying regime" would provide useful boundaries when considering the situation where the diabolos actually detach from and attach to the string.
+This "flying regime" might provide useful boundaries 
+when the diabolos actually detach from and attach to the string.
 Now that all $\theta_i$ and $\phi_0$ is non-arbitrarily defined, 
 $\phi_i$ is also non-arbitrarily defined by the definition above.
 
@@ -70,7 +76,6 @@ $$
 \begin{gather}
 \psi_i := \frac{\theta_i - \pi}{2}\\
 \psi_0, \psi_{N+1} := - \frac{\pi}{2}\\
-\dot{\psi_i} = \frac{\dot{\theta_i}}{2} \\
 \end{gather}
 $$
 
@@ -124,9 +129,77 @@ The left side is a more intuitive expression with Cartesian coordinates,
 which will be useful when dealing with real data, or visualizing simulation results.
 The right side is useful when dealing with analytical solutions.
 
-One of the forces in play is the string tension.
+Here are simple time-derivative that are geometrically derived.
+
+$$
+\begin{gather}
+\dot{l_i} = - u_{i}^\alpha \cos \psi_{i}
+-u_{i}^\beta \sin \psi_{i}
++u_{i+1}^\alpha \cos \psi_{i+1}
+-u_{i+1}^\beta \sin \psi_{i+1} \\
+\begin{gathered}
+\dot{\phi_i} = 
+\frac{1}{2}(
+\frac{
+u_{i+1}^\alpha \sin\psi_{i+1} +
+u_{i+1}^\beta \cos\psi_{i+1} +
+u_{i}^\alpha \sin \psi_{i} -
+u_{i}^\beta \cos \psi_{i}
+}
+{l_{i}} \\+
+\frac{
+u_{i}^\alpha \sin\psi_{i} +
+u_{i}^\beta \cos\psi_{i} +
+u_{i-1}^\alpha \sin \psi_{i-1} -
+u_{i-1}^\beta \cos \psi_{i-1}
+}
+{l_{i-1}}
+)
+\end{gathered} \\
+\dot{\phi_0} = 
+\frac{
+u_{1}^\alpha \sin\psi_{1} +
+u_{1}^\beta \cos\psi_{1} -
+u_{0}^\alpha 
+}
+{l_{0}} 
+\\
+\dot{\phi}_{N+1} = 
+\frac{
+u_{N}^\alpha \sin\psi_{N} -
+u_{N}^\beta \cos\psi_{N} -
+u_{N+1}^\alpha 
+}
+{l_{N}} 
+\\
+\begin{gathered}
+\dot{\theta_i} = 
+(
+\frac{
+u_{i+1}^\alpha \sin\psi_{i+1} +
+u_{i+1}^\beta \cos\psi_{i+1} +
+u_{i}^\alpha \sin \psi_{i} -
+u_{i}^\beta \cos \psi_{i}
+}
+{l_{i}} \\-
+\frac{
+u_{i}^\alpha \sin\psi_{i} +
+u_{i}^\beta \cos\psi_{i} +
+u_{i-1}^\alpha \sin \psi_{i-1} -
+u_{i-1}^\beta \cos \psi_{i-1}
+}
+{l_{i-1}}
+)
+\end{gathered}\\
+\dot{\psi_i} = \frac{\dot{\theta_i}}{2}
+\end{gather}
+$$
+
+### 1-2 Frictions
+
+One of the forces is the string tension.
 Due to frictions at diabolos, tension is different among string segments.
-Thus the tension is defined for each string segment as $T_i$ .
+Thus, the tension is defined for each string segment as $T_i$ .
 Tension vector is defined as
 
 $$
@@ -163,29 +236,46 @@ $$
 \end{align}
 $$
 
-In the linear friction regime, the integrated friction $S_i$ can be obtained by 
-friction coefficient $c$, 
-wrapping angle $\theta'$, 
-and the relation of $w_i$ and the speed of diabolo movement against the string.
-The last component is here refered to as "acceleration state", 
-which can take "accelerating" state or "decelerating" state.
-
-The speed of diabolo movement against the string can be obtained by 
-looking at the string segments on the left side or right side of a given diabolo.
-By comparing this and $w_i$, relative volocity $w_i'$ is defined
+Physically, the friction occurs at the interface of axle surface and the string.
+Thus it should be determined by the relative speed of axle surface against the string.
+This means the comparison between $w_i$ and the speed of diabolo movement against the string.
+The latter is equal to the change in the summed string segment lengths on the left side of a given diabolo.
+Then, the relative volocity $w_i'$ is,
 
 $$
-\begin{align}
+\begin{equation}
+\begin{gathered}
 w_i' := w_i - \sum_{j=0}^{i-1}{\dot{l_j}} \\
+=w_i - (
+u_0^\beta + u_i^{\alpha} \cos \psi_i - u_i^{\beta} \sin \psi_i -
+2\sum_{j=1}^{i-1} u_j^{\beta} \sin \psi_j
+) 
+\end{gathered}
+\end{equation}
+$$
+
+Here, the term $\dot{\phi_i}r$ should also be included if rigorous 
+(imagine you spin the entire system without any other motion).
+But this term is practically very small, 
+and can be ignored as a limit case of $r \rightarrow 0$.
+
+The direction of friction is determined by the sign of $w_i'$,
+here refered to as "acceleration state",
+which can take "accelerating" state or "decelerating" state.
+
+$$
 \begin{cases}
 \text{accelerating if } w_i' < 0\\
 \text{decelerating if } w_i' > 0\\
 \end{cases}
-\end{align}
 $$
 
-The effective friction coefficient $c_i'$ is introduced to simply express the friction. 
-In a certain approximation, capstan equation can be used,
+In the linear friction regime, the friction is determined by 
+friction coefficient $c$, 
+wrapping angle $\theta'$, 
+and the acceleration state.
+The effective friction coefficient $c_i'$ is introduced to simplify the expression. 
+With capstan equation,
 
 $$
 \begin{align}
@@ -208,6 +298,19 @@ Modifying $c_i'(w_i')$, such that it is zero when decelerating, easily accounts 
 Additionally, this implies the possibility of extending to generalized continuous function, such as $c_i'(w_i') \approx \tanh$. 
 And the step function would be represented as a certain limit case.
 
+In a more generalized case where the linearity of friction cannot be assumed, 
+thereby $c$ is no longer a constant, 
+the friction needs to be expressed as a more generalized operator $f_{w_i',\theta_i'}$
+
+$$
+\begin{gather}
+T_i = f_{w_i',\theta_i'} (T_{i-1})
+\end{gather}
+$$
+
+We only consider the linear regime in the following.
+
+### 1-3. Equations of motions and constraints
 Suppose the system where the input is the force applied from hands to sticks. 
 Let $\boldsymbol{F_0, F_{N+1}}$ the force applied to each stick. Let $M$ the mass of a stick. 
 Let $\boldsymbol{g}$ the standard acceleration of gravity.
@@ -243,13 +346,12 @@ but they can be easily derived as secondary results.)
 
 ## 2. Solution
 
-First, tensions are expressed as a function of $T_0$ .
+First, tensions are compressed to $T_0$ .
 
 $$
 \begin{gather}
 T_i = T_0 \times d_i \\
-d_i := \exp(\sum_{j=1}^{i} c_j' \theta_j')\\
-(d_0 := 1)
+d_i := \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1)
 \end{gather}
 $$
 
@@ -257,16 +359,12 @@ The constraint is solved geometrically,
 
 $$
 \begin{gather}
-\dot{l_i} = - u_{i}^\alpha \cos \psi_{i}
--u_{i}^\beta \sin \psi_{i}
-+u_{i+1}^\alpha \cos \psi_{i+1}
--u_{i+1}^\beta \sin \psi_{i+1} \\
 \dot{L} = \sum_{i=0}^{N} \dot{l_i}
 = u_0^\beta + u_{N+1}^\beta - 2\sum_{i=1}^{N} u_i^\beta \sin\psi_i 
 =0\\
 \ddot{L} = (a_0^\beta + a_{N+1}^\beta) + 
 (u_0^\alpha \dot{\phi_0} +
-u_{N+1}^\alpha \dot{\phi_{N+1}} ) +
+u_{N+1}^\alpha \dot{\phi_{N+1}} ) -
 2\sum_{i=1}^{N} (
 a_i^{\beta}\sin \psi_i +
 u_i^{\alpha} \dot{\phi_i} \sin \psi_i +
@@ -321,11 +419,12 @@ $$
 With this,
 
 $$
-\begin{align}
+\begin{equation}
+\begin{aligned}
 \ddot{L} = &(a_0^\beta + a_{N+1}^\beta) + 
 (u_0^\alpha \dot{\phi_0} +
 u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
-&+2\sum_{i=1}^{N} (
+&-2\sum_{i=1}^{N} (
 (
     \frac{T_0}{m} (d_i + d_{i-1})\sin\psi_i)
     -g\cos\phi_i
@@ -336,108 +435,38 @@ u_i^\beta \frac{\dot{\theta_i}}{2} \cos \psi_i) \\
 = &(a_0^\beta + a_{N+1}^\beta) + 
 (u_0^\alpha \dot{\phi_0} +
 u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
-&+2\sum_{i=1}^{N}
-(g\cos\phi_i\sin\psi_i + u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
-+\frac{2T_0}{m}\sum_{i=1}^{N}
-(d_i + d_{i-1})\sin^2\psi_i \\
-= & 0
-\end{align}
+&-2\sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i + u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
+-\frac{2T_0}{m}\sum_{i=1}^{N}
+(d_i + d_{i-1})\sin^2\psi_i  \\
+&= 0
+\end{aligned}
+\end{equation}
 $$
 
+Then,
+
 $$
-\begin{multline}
+\begin{equation}
+\begin{gathered}
 T_0 = 
 (a_0^\beta + a_{N+1}^\beta) \frac{1}
 {\frac{2}{m}\sum_{i=1}^{N}
 (d_i + d_{i-1})\sin^2\psi_i} \\
-+
-\frac{
++\frac{
     (u_0^\alpha \dot{\phi_0} +
     u_{N+1}^\alpha \dot{\phi_{N+1}} )
-    +2\sum_{i=1}^{N}
-    (g\cos\phi_i\sin\psi_i + u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
+    -2\sum_{i=1}^{N}
+    (-g\cos\phi_i\sin\psi_i + u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
 }
 {\frac{2}{m}\sum_{i=1}^{N}
 (d_i + d_{i-1})\sin^2\psi_i} \\
 =(a_0^\beta + a_{N+1}^\beta)A_1 + A_2
-\end{multline}
+\end{gathered}
+\end{equation}
 $$
 
-Note that
-
-$$
-\begin{gather}
-\dot{\phi_i} = 
-\dot{\phi_i}
-(l_{(i-1),i},\theta_{(i-1),i,(i+1)},u_{(i-1),i,(i+1)}^{\alpha, \beta}) \\
-=\frac{1}{2}(
-\frac{
-u_{i+1}^\alpha \sin\psi_{i+1} +
-u_{i+1}^\beta \cos\psi_{i+1} +
-u_{i}^\alpha \sin \psi_{i} -
-u_{i}^\beta \cos \psi_{i}
-}
-{l_{i}} \\+
-\frac{
-u_{i}^\alpha \sin\psi_{i} +
-u_{i}^\beta \cos\psi_{i} +
-u_{i-1}^\alpha \sin \psi_{i-1} -
-u_{i-1}^\beta \cos \psi_{i-1}
-}
-{l_{i-1}}
-) \\
-\dot{\phi_0} = 
-\dot{\phi_0}
-(l_{0},\theta_{1},u_{1}^{\alpha, \beta},u_{0}^{\alpha}) =
-\frac{
-u_{1}^\alpha \sin\psi_{1} +
-u_{1}^\beta \cos\psi_{1} -
-u_{0}^\alpha 
-}
-{l_{0}} 
-\\
-\dot{\phi}_{N+1} = 
-\dot{\phi}_{N+1}
-(l_{N},\theta_{N},u_{N}^{\alpha, \beta},u_{N+1}^{\alpha}) =
-\frac{
-u_{N}^\alpha \sin\psi_{N} -
-u_{N}^\beta \cos\psi_{N} -
-u_{N+1}^\alpha 
-}
-{l_{N}} 
-\\
-\dot{\theta_i} = 
-\dot{\theta_i} 
-(l_{(i-1),i},\theta_{(i-1),i,(i+1)},u_{(i-1),i,(i+1)}^{\alpha, \beta})
-\\ =
-(
-\frac{
-u_{i+1}^\alpha \sin\psi_{i+1} +
-u_{i+1}^\beta \cos\psi_{i+1} +
-u_{i}^\alpha \sin \psi_{i} -
-u_{i}^\beta \cos \psi_{i}
-}
-{l_{i}} \\-
-\frac{
-u_{i}^\alpha \sin\psi_{i} +
-u_{i}^\beta \cos\psi_{i} +
-u_{i-1}^\alpha \sin \psi_{i-1} -
-u_{i-1}^\beta \cos \psi_{i-1}
-}
-{l_{i-1}}
-) \\
-w_i' = w_i'(w_i,u_{0,...,i}^\beta, u_i^\alpha,\theta_{1,...,i}) =
-w_i - \sum_{j=0}^{i-1}{\dot{l_j}}  \\
-(
-\sum_{j=0}^{i-1}{\dot{l_j}} = 
-u_0^\beta + u_i^{\alpha} \cos \psi_i - u_i^{\beta} \sin \psi_i -
-2\sum_{j=1}^{i-1} u_j^{\beta} \sin \psi_j
-) \\
-d_i = d_i (w_{0,...,i},u_0^\beta,u_{1,...,i}^{\alpha,\beta},\theta_{1,...,i})
-\end{gather}
-$$
-
-Thus, both $A_1,A_2$ are a state function,
+Both $A_1,A_2$ are a state function,
 
 $$
 \begin{gather}
@@ -530,6 +559,9 @@ a_{i}^{\alpha} \\ a_{i}^{\beta}
 (F_0^\beta + F_{N+1}^\beta)+
 (
 \frac{A_1A_4+A_2}{m}
+\begin{pmatrix}
+(d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
+\end{pmatrix}
 -g\begin{pmatrix}
 \sin \phi_{i} \\ \cos \phi_{i}
 \end{pmatrix}
@@ -566,8 +598,8 @@ F_0^\beta \\ F_{N+1}^\beta
 -g\sin\phi_{N+1}\\
 -(g\cos\phi_0 +\frac{A_1 A_4 + A_2}{M}) \\
 -(g\cos\phi_{N+1} +d_N\frac{A_1 A_4 + A_2}{M})\\
-\frac{A_1A_4+A_2}{m} -g \sin \phi_{i} \\
-\frac{A_1A_4+A_2}{m} -g \cos \phi_{i} \\
+\frac{A_1A_4+A_2}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
+\frac{A_1A_4+A_2}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
 ...\\
 ...\\
 \end{pmatrix} \\
