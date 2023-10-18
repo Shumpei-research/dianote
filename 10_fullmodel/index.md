@@ -95,16 +95,16 @@ $$
 u_i^{\alpha}\boldsymbol{\alpha_i} + u_i^{\beta}\boldsymbol{\beta_i} =
 \begin{pmatrix} u_{i}^{\alpha} \\ u_{i}^{\beta} \end{pmatrix} =
 \begin{bmatrix}
-    \cos{\phi_i} & -\sin{\phi_i} \\
-    \sin{\phi_i} & \cos{\phi_i}
+    \cos{\phi_i} & \sin{\phi_i} \\
+    -\sin{\phi_i} & \cos{\phi_i}
 \end{bmatrix} 
 \begin{pmatrix} u_{i}^{x} \\ u_{i}^{y} \end{pmatrix} \\
 \boldsymbol{a_i} = 
 a_i^{\alpha}\boldsymbol{\alpha_i} + a_i^{\beta}\boldsymbol{\beta_i} =
 \begin{pmatrix} a_{i}^{\alpha} \\ a_{i}^{\beta} \end{pmatrix} =
 \begin{bmatrix}
-    \cos{\phi_i} & -\sin{\phi_i} \\
-    \sin{\phi_i} & \cos{\phi_i}
+    \cos{\phi_i} & \sin{\phi_i} \\
+    -\sin{\phi_i} & \cos{\phi_i}
 \end{bmatrix} 
 \begin{pmatrix} a_{i}^{x} \\ a_{i}^{y} \end{pmatrix} \\
 \end{gather}
@@ -130,8 +130,8 @@ $$
     \dot{u_i^\alpha} \\ \dot{u_i^\beta}
 \end{pmatrix}
 =\begin{pmatrix}
-    a_i^\alpha - u_i^\beta \dot{\phi_i} \\
-    a_i^\beta + u_i^\alpha \dot{\phi_i}
+    a_i^\alpha + u_i^\beta \dot{\phi_i} \\
+    a_i^\beta - u_i^\alpha \dot{\phi_i}
 \end{pmatrix} \\
 \dot{l_i} = - u_{i}^\alpha \cos \psi_{i}
 -u_{i}^\beta \sin \psi_{i}
@@ -372,11 +372,11 @@ $$
 \dot{L} = \sum_{i=0}^{N} \dot{l_i}
 = u_0^\beta + u_{N+1}^\beta - 2\sum_{i=1}^{N} u_i^\beta \sin\psi_i 
 =0\\
-\ddot{L} = (a_0^\beta + a_{N+1}^\beta) + 
+\ddot{L} = (a_0^\beta + a_{N+1}^\beta) - 
 (u_0^\alpha \dot{\phi_0} +
 u_{N+1}^\alpha \dot{\phi_{N+1}} ) -
 2\sum_{i=1}^{N} (
-a_i^{\beta}\sin \psi_i +
+a_i^{\beta}\sin \psi_i -
 u_i^{\alpha} \dot{\phi_i} \sin \psi_i +
 u_i^\beta \frac{\dot{\theta_i}}{2} \cos \psi_i)
 =0
@@ -431,7 +431,7 @@ With this,
 $$
 \begin{equation}
 \begin{aligned}
-\ddot{L} = &(a_0^\beta + a_{N+1}^\beta) + 
+\ddot{L} = &(a_0^\beta + a_{N+1}^\beta) - 
 (u_0^\alpha \dot{\phi_0} +
 u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
 &-2\sum_{i=1}^{N} (
@@ -439,14 +439,14 @@ u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
     \frac{T_0}{m} (d_i + d_{i-1})\sin\psi_i)
     -g\cos\phi_i
 )
-\sin \psi_i +
+\sin \psi_i -
 u_i^{\alpha} \dot{\phi_i} \sin \psi_i +
 u_i^\beta \frac{\dot{\theta_i}}{2} \cos \psi_i) \\
-= &(a_0^\beta + a_{N+1}^\beta) + 
+= &(a_0^\beta + a_{N+1}^\beta) - 
 (u_0^\alpha \dot{\phi_0} +
 u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
 &-2\sum_{i=1}^{N}
-(-g\cos\phi_i\sin\psi_i + u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
+(-g\cos\phi_i\sin\psi_i - u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
 -\frac{2T_0}{m}\sum_{i=1}^{N}
 (d_i + d_{i-1})\sin^2\psi_i  \\
 &= 0
@@ -464,10 +464,10 @@ T_0 =
 {\frac{2}{m}\sum_{i=1}^{N}
 (d_i + d_{i-1})\sin^2\psi_i} \\
 +\frac{
-    (u_0^\alpha \dot{\phi_0} +
+    -(u_0^\alpha \dot{\phi_0} +
     u_{N+1}^\alpha \dot{\phi_{N+1}} )
     -2\sum_{i=1}^{N}
-    (-g\cos\phi_i\sin\psi_i + u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
+    (-g\cos\phi_i\sin\psi_i - u_i^\alpha \dot{\phi_i} \sin\psi_i + u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)
 }
 {\frac{2}{m}\sum_{i=1}^{N}
 (d_i + d_{i-1})\sin^2\psi_i} \\
@@ -673,11 +673,11 @@ M^{-4} \frac{1}{1 + \frac{A_1(1+d_N)}{M}}
 0 & \boldsymbol{R}(b)
 \end{bmatrix}\\
 \boldsymbol{B'} :=
-\boldsymbol{R}_2^{-1}(\phi _0, \phi _{N+1})
+\boldsymbol{R}_2(\phi _0, \phi _{N+1})
 \boldsymbol{B}
-\boldsymbol{R}_2(\phi _0, \phi _{N+1})\\
+\boldsymbol{R}_2^{-1}(\phi _0, \phi _{N+1})\\
 \boldsymbol{C'} :=
-\boldsymbol{R}_2^{-1}(\phi _0, \phi _{N+1})
+\boldsymbol{R}_2(\phi _0, \phi _{N+1})
 \boldsymbol{C}
 \end{gather}
 $$
@@ -777,7 +777,7 @@ $$
     \dot{\phi}_0, 
     \dot{\theta}_{1,...,N},
 ) (t=t) \\
-\dot{\boldsymbol{x}}_0 = \boldsymbol{R}(-\phi_0)(u_0^\alpha, u_0^\beta)^T \\
+\dot{\boldsymbol{x}}_0 = \boldsymbol{R}(\phi_0)(u_0^\alpha, u_0^\beta)^T \\
 \dot{l_i} = - u_{i}^\alpha \cos \psi_{i}
 -u_{i}^\beta \sin \psi_{i}
 +u_{i+1}^\alpha \cos \psi_{i+1}
@@ -810,6 +810,16 @@ u_{i-1}^\beta \cos \psi_{i-1}
 \end{gather}
 $$
 
+where
+
+$$
+\begin{gather}
+\theta_0 , \theta_{N+1} := 0 \\
+\psi_i := \frac{\theta_i - \pi}{2}\\
+\phi_i := \phi_{i-1} + \psi_{i-1} + \psi_{i} = \phi_0  + (2\sum_{j=0}^{i} \psi_j )- \psi _0 - \psi_i\\
+\end{gather}
+$$
+
 With $\boldsymbol{X, F}$, the rotational accelerations $\dot{w}_i$ is determined,
 and all the accelerations $a_i^{\alpha,\beta}$ is determined as seen above. 
 Then, as we saw above, $\dot{u}_i^{\alpha,\beta}$ is easily obtained.
@@ -829,7 +839,7 @@ F_0^\beta
 F_{N+1}^\alpha
 F_{N+1}^\beta
 )^T = 
-\boldsymbol{R}_2 (\phi_0, \phi_{N+1}) \boldsymbol{F}
+\boldsymbol{R}_2 (-\phi_0, -\phi_{N+1}) \boldsymbol{F}
 \\
 \dot{w_i}
 = - \frac{A_5 (d_i - d_{i-1})}{mJ}(F_0^\beta+F_{N+1}^\beta) - 
@@ -872,8 +882,8 @@ F_{N+1}^\beta
     \dot{u_i^\alpha} \\ \dot{u_i^\beta}
 \end{pmatrix}
 =\begin{pmatrix}
-    a_i^\alpha - u_i^\beta \dot{\phi_i} \\
-    a_i^\beta + u_i^\alpha \dot{\phi_i}
+    a_i^\alpha + u_i^\beta \dot{\phi_i} \\
+    a_i^\beta - u_i^\alpha \dot{\phi_i}
 \end{pmatrix} \\
 \end{gather}
 $$
@@ -882,11 +892,6 @@ where
 
 $$
 \begin{gather}
-\begin{gathered}
-\phi_i := \phi_{i-1} + \frac{\theta_{i-1} - \pi}{2} + \frac{\theta_{i} - \pi}{2}\\
-(\theta_0 , \theta_{N+1} := 0)
-\end{gathered} \\
-\psi_i := \frac{\theta_i - \pi}{2}\\
 \begin{gathered}
 \dot{\phi_i} = 
 \frac{1}{2}(
@@ -932,14 +937,13 @@ c_i'(w_i') :=
 d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1) \\
 A' := \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i\\
 A'' := \sum_{i=1}^{N}
-(-g\cos\phi_i\sin\psi_i + 
+(-g\cos\phi_i\sin\psi_i -
 u_i^\alpha \dot{\phi_i} \sin\psi_i + 
 u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i) \\
-A_2 := \frac{m}{2A'}((u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} )-2A'')\\
+A_2 := \frac{-m}{2A'}((u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} )+2A'')\\
 A_5 := \frac{1}{(1+d_N) + \frac{2M}{m} A'} \\
 A_6 :=
-\frac{A_2 (\frac{2M}{m}A' + 2(1+d_N)) - Mg(\cos\phi_0 + \cos\phi_{N+1})}{\frac{2M}{m}A'+(1+d_N)} \\
-\\\\\\
+A_2 + \frac{A_2(1+d_N) - Mg(\cos\phi_0 + \cos\phi_{N+1})}{\frac{2M}{m}A' + (1+d_N)}
 \end{gather}
 $$
 
