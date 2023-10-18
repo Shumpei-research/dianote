@@ -107,13 +107,6 @@ a_i^{\alpha}\boldsymbol{\alpha_i} + a_i^{\beta}\boldsymbol{\beta_i} =
     \sin{\phi_i} & \cos{\phi_i}
 \end{bmatrix} 
 \begin{pmatrix} a_{i}^{x} \\ a_{i}^{y} \end{pmatrix} \\
-\begin{pmatrix}
-    \dot{u_i^\alpha} \\ \dot{u_i^\beta}
-\end{pmatrix}
-=\begin{pmatrix}
-    a_i^\alpha - u_i^\beta \dot{\phi_i} \\
-    a_i^\beta + u_i^\alpha \dot{\phi_i}
-\end{pmatrix}
 \end{gather}
 $$
 
@@ -133,6 +126,13 @@ Here are simple time-derivative that are geometrically derived.
 
 $$
 \begin{gather}
+\begin{pmatrix}
+    \dot{u_i^\alpha} \\ \dot{u_i^\beta}
+\end{pmatrix}
+=\begin{pmatrix}
+    a_i^\alpha - u_i^\beta \dot{\phi_i} \\
+    a_i^\beta + u_i^\alpha \dot{\phi_i}
+\end{pmatrix} \\
 \dot{l_i} = - u_{i}^\alpha \cos \psi_{i}
 -u_{i}^\beta \sin \psi_{i}
 +u_{i+1}^\alpha \cos \psi_{i+1}
@@ -214,25 +214,25 @@ $I$ the rotational inertia,
 and $m$ the mass of diabolo.
 Then let $\omega_i$ the angular velocity of diabolo $i$, positive value of which means the rotation from left to right (clockwise).
 The surface velocity of the axis is $w_i = r\omega_i$ .
-Let $R$ the normalized rotational inertia (see below).
+Let $J$ the normalized rotational inertia (see below).
 The surface-integrated friction is equal to the loss of string tension $S_i = T_{i-1} - T_{i}$ .
-In the context of solving the system behavior, we only need $w$ and $R$ rather than $\omega, r, I$.
+In the context of solving the system behavior, we only need $w$ and $J$ rather than $\omega, r, I$.
 With simple rigid-body mechanics,
 
 $$
 \begin{align}
-R := \frac{I}{mr^2} \\
+J := \frac{I}{mr^2} \\
 I\dot{\omega_i} = rS_i \\
-\text{Thus, }\dot{w_i} = \frac{S_i}{mR}
+\text{Thus, }\dot{w_i} = \frac{S_i}{mJ}
 \end{align}
 $$
 
-If you account for aerodynamic drag $D$,
+If you account for aerodynamic drag $D>0$,
 so that the rotational velocity is not accelerated limitlessly, 
 
 $$
 \begin{align}
-\dot{w_i} = \frac{S_i}{mR} - D(w_i)
+\dot{w_i} = \frac{S_i}{mJ} - D(w_i)
 \end{align}
 $$
 
@@ -298,17 +298,25 @@ Modifying $c_i'(w_i')$, such that it is zero when decelerating, easily accounts 
 Additionally, this implies the possibility of extending to generalized continuous function, such as $c_i'(w_i') \approx \tanh$. 
 And the step function would be represented as a certain limit case.
 
-In a more generalized case where the linearity of friction cannot be assumed, 
-thereby $c$ is no longer a constant, 
-the friction needs to be expressed as a more generalized operator $f_{w_i',\theta_i'}$
+In a little bit more generalized linear approximation, 
+tension ratio is determined by a function f:
 
 $$
-\begin{gather}
-T_i = f_{w_i',\theta_i'} (T_{i-1})
-\end{gather}
+\begin{equation}
+T_i = T_{i-1}  \times f(w_i',\theta_i')
+\end{equation}
 $$
 
-We only consider the linear regime in the following.
+Further, when the friction is not assumed linear, 
+$f$ needs to be
+
+$$
+\begin{equation}
+T_i = f(T_{i-1} ; w_i',\theta_i')
+\end{equation}
+$$
+
+Only the linear regime is considered in the following.
 
 ### 1-3. Equations of motions and constraints
 Suppose the system where the input is the force applied from hands to sticks. 
@@ -346,12 +354,14 @@ but they can be easily derived as secondary results.)
 
 ## 2. Solution
 
+### 2-1. Deriviation of Accelerations
+
 First, tensions are compressed to $T_0$ .
 
 $$
 \begin{gather}
 T_i = T_0 \times d_i \\
-d_i := \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1)
+d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1)
 \end{gather}
 $$
 
@@ -466,7 +476,7 @@ T_0 =
 \end{equation}
 $$
 
-Both $A_1,A_2$ are a state function,
+Both $A_1,A_2$ are determined by state variables,
 
 $$
 \begin{gather}
@@ -523,19 +533,21 @@ a_{N+1}^\beta =
 -(g\cos\phi_{N+1}
 +d_N\frac{A_1 A_4 + A_2}{M})
 \end{cases} \\
+A_5 := A_1 A_3 \\
+A_6 := A_1 A_4 + A_2 \\
 \begin{pmatrix}
 a_0^\beta \\ a_{N+1}^\beta
 \end{pmatrix}
 = \begin{bmatrix}
-\frac{1 - A_1 A_3}{M}  & - \frac{A_1 A_3}{M} \\
--\frac{d_N A_1 A_3}{M} & \frac{1 - d_N A_1 A_3}{M}
+\frac{1 - A_5}{M}  & - \frac{A_5}{M} \\
+-\frac{d_N A_5}{M} & \frac{1 - d_N A_5}{M}
 \end{bmatrix}
 \begin{pmatrix}
 F_0^\beta \\ F_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
--(g\cos\phi_0 +\frac{A_1 A_4 + A_2}{M}) \\
--(g\cos\phi_{N+1} +d_N\frac{A_1 A_4 + A_2}{M})
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
+-(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
 \end{pmatrix} \\
 \end{gather}
 $$
@@ -544,7 +556,7 @@ Additionally,
 
 $$
 \begin{gather}
-T_0 = A_1 A_3(F_0^\beta + F_{N+1}^\beta) + (A_1 A_4 + A_2) \\
+T_0 = A_5(F_0^\beta + F_{N+1}^\beta) + A_6 \\
 \begin{cases}
 a_0^\alpha = \frac{1}{M} F_0^\alpha -g\sin\phi_0 \\
 a_{N+1}^\alpha =\frac{1}{M} F_{N+1}^\alpha -g\sin\phi_{N+1}   
@@ -552,13 +564,13 @@ a_{N+1}^\alpha =\frac{1}{M} F_{N+1}^\alpha -g\sin\phi_{N+1}
 \begin{pmatrix}
 a_{i}^{\alpha} \\ a_{i}^{\beta}
 \end{pmatrix}=
-\frac{A_1 A_3}{m} 
+\frac{A_5}{m} 
 \begin{pmatrix}
 (d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
 \end{pmatrix}
 (F_0^\beta + F_{N+1}^\beta)+
 (
-\frac{A_1A_4+A_2}{m}
+\frac{A_6}{m}
 \begin{pmatrix}
 (d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
 \end{pmatrix}
@@ -574,54 +586,363 @@ Therefore,
 $$
 \begin{gather}
 \begin{pmatrix}
-a_0^\alpha \\ a_{N+1}^\alpha \\ 
-a_0^\beta\\ a_{N+1}^\beta \\ 
+a_0^\alpha \\ 
+a_0^\beta\\ 
+a_{N+1}^\alpha \\ 
+a_{N+1}^\beta \\ 
 a_i^\alpha\\ a_i^\beta \\ 
 ...\\ ... \\ 
 \end{pmatrix}
 = \begin{bmatrix}
 \frac{1}{M} & 0 & 0 & 0\\
-0 & \frac{1}{M} & 0 & 0\\
-0 & 0 & \frac{1 - A_1 A_3}{M}  & - \frac{A_1 A_3}{M} \\
-0 & 0 & -\frac{d_N A_1 A_3}{M} & \frac{1 - d_N A_1 A_3}{M}\\
-0 & 0 & \frac{A_1 A_3 (d_{i} - d_{i-1}) \cos\psi_i }{m} & \frac{A_1 A_3 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
-0 & 0 & \frac{A_1 A_3 (d_{i} + d_{i-1}) \sin\psi_i }{m} & \frac{A_1 A_3 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
+0 & \frac{1 - A_5}{M} & 0 & - \frac{A_5}{M} \\
+0 & 0 & \frac{1}{M} & 0\\
+0 & -\frac{d_N A_5}{M} & 0 & \frac{1 - d_N A_5}{M}\\
+0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} & 0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
+0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} & 0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
 ... \\
 ... \\
 \end{bmatrix}
 \begin{pmatrix}
-F_0^\alpha \\ F_{N+1}^\alpha \\
-F_0^\beta \\ F_{N+1}^\beta
+F_0^\alpha \\ 
+F_0^\beta \\ 
+F_{N+1}^\alpha \\
+F_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
 -g\sin\phi_{N+1}\\
--(g\cos\phi_0 +\frac{A_1 A_4 + A_2}{M}) \\
--(g\cos\phi_{N+1} +d_N\frac{A_1 A_4 + A_2}{M})\\
-\frac{A_1A_4+A_2}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
-\frac{A_1A_4+A_2}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
+-(g\cos\phi_{N+1} +d_N\frac{A_6}{M})\\
+\frac{A_6}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
+\frac{A_6}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
 ...\\
 ...\\
-\end{pmatrix} \\
-=\boldsymbol{BF}+\boldsymbol{C}
+\end{pmatrix}
 \end{gather}
 $$
 
-where $\boldsymbol{B} \; (2(N+2)\times 4)$,$\boldsymbol{C} \; (2(N+2)\times 1)$ are state functions.
 Adding the equations for the rotational motions will complete the solution,
 
 $$
 \begin{gather}
-\dot{w_i} = \frac{S_i}{mR} - D(w_i) = \frac{- T_0(d_{i}-d_{i-1})}{mR} -D(w_i) \\
-= - \frac{A_1A_2 (d_i - d_{i-1})}{mR}(F_0^\beta+F_{N+1}^\beta) - 
-(\frac{(A_1A_4+A_2)(d_i-d_{i-1})}{mR} + D(w_i))
+\dot{w_i} = \frac{S_i}{mJ} - D(w_i) = \frac{- T_0(d_{i}-d_{i-1})}{mJ} -D(w_i) \\
+= - \frac{A_5 (d_i - d_{i-1})}{mJ}(F_0^\beta+F_{N+1}^\beta) - 
+(\frac{A_6(d_i-d_{i-1})}{mJ} + D(w_i))
 \end{gather}
 $$
 
-It is interesting to see that $\alpha$ components of input forces only affect the $\alpha$ direction acceleration.
-Also, in $\alpha$ direction, the sticks only feel the gravity, and you can move the sticks almost freely.
-In $\beta$ direction, you feel the tension so that you need much stronger or weaker force to move the sticks than free motions.
-These results match intuition.
+There are some physical consequences we can see. 
+The forces diabolos feel are only the tension and gravity.
+And the ratio of each tension is predetermined by the state.
+Only $T_0$, the magnitude of tensions can be modulated by input forces.
+Thus, only one degree of freedom, $F_0^\beta + F_{N+1}^\beta$ is used for all the diabolos.
+The direction of $\boldsymbol{a}_i$ is predetermined and cannot be modulated.
+The stick movements in $\beta$ direction are determined by another degree of freedom,
+say $F_0^\beta - F_{N+1}^\beta$.
+The stick movements in $\alpha$ direction are affected only by gravity and input forces.
+Thus, these movements are independent and uses $F_0^\alpha, F_{N+1}^\alpha$ each,
+freely controlable.
 
-Formally, these accelerations can be used to obtain the time derivatives of positions and velocities, 
-which is the final analytical solution of this (nonlinear) system.
+A useful conversion of the solution is, using two-dimensional rotation matrix $\boldsymbol{R}$,
+
+$$
+\begin{gather}
+\boldsymbol{B}
+:= \begin{bmatrix}
+\frac{1}{M} & 0 & 0 & 0\\
+0 & \frac{1 - A_5}{M} & 0 & - \frac{A_5}{M} \\
+0 & 0 & \frac{1}{M} & 0\\
+0 & -\frac{d_N A_5}{M} & 0 & \frac{1 - d_N A_5}{M}
+\end{bmatrix} \\
+\det(\boldsymbol{B}) =
+M^{-4} (1-(1+d_N)A_5) =
+M^{-4} \frac{1}{1 + \frac{A_1(1+d_N)}{M}}
+\ne 0 \text{ (except special cases)}
+\\
+\boldsymbol{C}
+:= \begin{pmatrix}
+-g\sin\phi_0\\
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
+-g\sin\phi_{N+1}\\
+-(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
+\end{pmatrix} \\
+\boldsymbol{R}_2 (a,b) := 
+\begin{bmatrix}
+\boldsymbol{R}(a) & 0 \\
+0 & \boldsymbol{R}(b)
+\end{bmatrix}\\
+\boldsymbol{B'} :=
+\boldsymbol{R}_2^{-1}(\phi _0, \phi _{N+1})
+\boldsymbol{B}
+\boldsymbol{R}_2(\phi _0, \phi _{N+1})\\
+\boldsymbol{C'} :=
+\boldsymbol{R}_2^{-1}(\phi _0, \phi _{N+1})
+\boldsymbol{C}
+\end{gather}
+$$
+
+Then,
+
+$$
+\begin{gather}
+\begin{pmatrix}
+a_0^x \\ 
+a_0^y\\ 
+a_{N+1}^x \\ 
+a_{N+1}^y
+\end{pmatrix} =
+\boldsymbol{B'}
+\begin{pmatrix}
+F_0^x \\ 
+F_0^y \\ 
+F_{N+1}^x \\
+F_{N+1}^y
+\end{pmatrix} +
+\boldsymbol{C'} \\
+\begin{pmatrix}
+F_0^x \\ 
+F_0^y \\ 
+F_{N+1}^x \\
+F_{N+1}^y
+\end{pmatrix} =
+\boldsymbol{B'}^{-1}
+\begin{pmatrix}
+a_0^x \\ 
+a_0^y\\ 
+a_{N+1}^x \\ 
+a_{N+1}^y
+\end{pmatrix} -
+\boldsymbol{B'}^{-1}\boldsymbol{C'} \\
+\end{gather}
+$$
+
+This means that the input forces and the acceleration of sticks are linearly convertible in a given state.
+Suppose you simulate the system with input forces,
+it may be difficult to find the proper $\boldsymbol{F}$ so that the objects move intuitively.
+But it is also possible to use $\boldsymbol{a}_{0,N+1}$ as the input, 
+and internally determine the necessary input forces,
+which allows you to just intuitively move the sticks.
+
+### 2-2 (Re-stating) Formula for Numerical Calculation
+
+The system is expressed as:
+
+$$
+\begin{align}
+\boldsymbol{X_0} (t): (\boldsymbol{x}_i, k_{1,...,N}, u_i^{x,y}, w_i) 
+\Leftrightarrow 
+\boldsymbol{X} (t): (\boldsymbol{x}_0, l_{0,...,N}, \phi_0, \theta_{1,...,N}, u_i^{\alpha,\beta}, w_i)
+\end{align}
+$$
+
+with the parameters $(L, m, M, c, J, D)$ and a physical constant $g$.
+We focus on $\boldsymbol{X} (t)$ since the conversion is easy. 
+Due to constraints, the state variables can be reduced:
+
+$$
+\begin{gather}
+\boldsymbol{X} (t): (\boldsymbol{x}_0, l_{0,...,N-1}, \phi_0, \theta_{1,...,N}, u_{0,...,N}^{\alpha,\beta}, u_{N+1}^\alpha, w_i)
+\end{gather}
+$$
+
+And $l_N, u_{N+1}^\beta$ are determined by constraints.
+The goal is to obtain the incremental time evolution for the given input:
+
+$$
+\begin{gather}
+\boldsymbol{X} (t=t+dt) = \boldsymbol{X} (t=t) + dt \times \dot{\boldsymbol{X}} |_{t=t} \\
+\dot{\boldsymbol{X}} |_{t=t} = \dot{\boldsymbol{X}} |_{t=t} (\boldsymbol{X}(t=t), \boldsymbol{F}(t=t)) \\
+= (
+    \dot{\boldsymbol{x_0}}, 
+    \dot{l}_{0,...,N-1},
+    \dot{\phi}_0, 
+    \dot{\theta}_{1,...,N},
+    \dot{u}_{0,...,N}^{\alpha,\beta},
+    \dot{u}_{N+1}^\alpha,
+    \dot{w_i}
+)
+\end{gather}
+$$
+
+Only from the state $\boldsymbol{X} (t=t)$, the following is determined as seen above.
+
+$$
+\begin{gather}
+\boldsymbol{X} (t=t)
+\Rightarrow
+(
+    \dot{\boldsymbol{x_0}}, 
+    \dot{l}_{0,...,N-1},
+    \dot{\phi}_0, 
+    \dot{\theta}_{1,...,N},
+) (t=t) \\
+\dot{\boldsymbol{x}}_0 = \boldsymbol{R}(-\phi_0)(u_0^\alpha, u_0^\beta)^T \\
+\dot{l_i} = - u_{i}^\alpha \cos \psi_{i}
+-u_{i}^\beta \sin \psi_{i}
++u_{i+1}^\alpha \cos \psi_{i+1}
+-u_{i+1}^\beta \sin \psi_{i+1} \\
+\dot{\phi_0} = 
+\frac{
+u_{1}^\alpha \sin\psi_{1} +
+u_{1}^\beta \cos\psi_{1} -
+u_{0}^\alpha 
+}{l_{0}}  \\
+\begin{gathered}
+\dot{\theta_i} = 
+(
+\frac{
+u_{i+1}^\alpha \sin\psi_{i+1} +
+u_{i+1}^\beta \cos\psi_{i+1} +
+u_{i}^\alpha \sin \psi_{i} -
+u_{i}^\beta \cos \psi_{i}
+}
+{l_{i}} \\-
+\frac{
+u_{i}^\alpha \sin\psi_{i} +
+u_{i}^\beta \cos\psi_{i} +
+u_{i-1}^\alpha \sin \psi_{i-1} -
+u_{i-1}^\beta \cos \psi_{i-1}
+}
+{l_{i-1}}
+)
+\end{gathered}\\
+\end{gather}
+$$
+
+With $\boldsymbol{X, F}$, the rotational accelerations $\dot{w}_i$ is determined,
+and all the accelerations $a_i^{\alpha,\beta}$ is determined as seen above. 
+Then, as we saw above, $\dot{u}_i^{\alpha,\beta}$ is easily obtained.
+
+$$
+\begin{gather}
+\boldsymbol{X} (t=t), \boldsymbol{F} (t=t)
+\Rightarrow
+(
+    \dot{u}_{0,...,N}^{\alpha,\beta},
+    \dot{u}_{N+1}^\alpha,
+    \dot{w_i}
+) (t=t)\\
+(
+F_0^\alpha 
+F_0^\beta 
+F_{N+1}^\alpha
+F_{N+1}^\beta
+)^T = 
+\boldsymbol{R}_2 (\phi_0, \phi_{N+1}) \boldsymbol{F}
+\\
+\dot{w_i}
+= - \frac{A_5 (d_i - d_{i-1})}{mJ}(F_0^\beta+F_{N+1}^\beta) - 
+(\frac{A_6(d_i-d_{i-1})}{mJ} + D(w_i))\\
+\begin{pmatrix}
+a_0^\alpha \\ 
+a_0^\beta\\ 
+a_{N+1}^\alpha \\ 
+a_{N+1}^\beta \\ 
+a_i^\alpha\\ a_i^\beta \\ 
+...\\ ... \\ 
+\end{pmatrix}
+= \begin{bmatrix}
+\frac{1}{M} & 0 & 0 & 0\\
+0 & \frac{1 - A_5}{M} & 0 & - \frac{A_5}{M} \\
+0 & 0 & \frac{1}{M} & 0\\
+0 & -\frac{d_N A_5}{M} & 0 & \frac{1 - d_N A_5}{M}\\
+0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} & 0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
+0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} & 0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
+... \\
+... \\
+\end{bmatrix}
+\begin{pmatrix}
+F_0^\alpha \\ 
+F_0^\beta \\ 
+F_{N+1}^\alpha \\
+F_{N+1}^\beta
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_0\\
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
+-g\sin\phi_{N+1}\\
+-(g\cos\phi_{N+1} +d_N\frac{A_6}{M})\\
+\frac{A_6}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
+\frac{A_6}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
+...\\
+...\\
+\end{pmatrix} \\
+\begin{pmatrix}
+    \dot{u_i^\alpha} \\ \dot{u_i^\beta}
+\end{pmatrix}
+=\begin{pmatrix}
+    a_i^\alpha - u_i^\beta \dot{\phi_i} \\
+    a_i^\beta + u_i^\alpha \dot{\phi_i}
+\end{pmatrix} \\
+\end{gather}
+$$
+
+where
+
+$$
+\begin{gather}
+\begin{gathered}
+\phi_i := \phi_{i-1} + \frac{\theta_{i-1} - \pi}{2} + \frac{\theta_{i} - \pi}{2}\\
+(\theta_0 , \theta_{N+1} := 0)
+\end{gathered} \\
+\psi_i := \frac{\theta_i - \pi}{2}\\
+\begin{gathered}
+\dot{\phi_i} = 
+\frac{1}{2}(
+\frac{
+u_{i+1}^\alpha \sin\psi_{i+1} +
+u_{i+1}^\beta \cos\psi_{i+1} +
+u_{i}^\alpha \sin \psi_{i} -
+u_{i}^\beta \cos \psi_{i}
+}
+{l_{i}} \\+
+\frac{
+u_{i}^\alpha \sin\psi_{i} +
+u_{i}^\beta \cos\psi_{i} +
+u_{i-1}^\alpha \sin \psi_{i-1} -
+u_{i-1}^\beta \cos \psi_{i-1}
+}
+{l_{i-1}}
+)
+\end{gathered} \\
+\dot{\phi}_{N+1} = 
+\frac{
+u_{N}^\alpha \sin\psi_{N} -
+u_{N}^\beta \cos\psi_{N} -
+u_{N+1}^\alpha 
+}
+{l_{N}} 
+\\
+w_i' := w_i - \sum_{j=0}^{i-1}{\dot{l_j}}
+=w_i - (
+u_0^\beta + u_i^{\alpha} \cos \psi_i - u_i^{\beta} \sin \psi_i -
+2\sum_{j=1}^{i-1} u_j^{\beta} \sin \psi_j
+)\\ 
+\theta_i' := 
+    \begin{cases}
+        \theta_i - \pi & (\theta_i >\pi)\\
+        \theta_i + \pi & (\theta_i <-\pi)\\
+    \end{cases} \\
+c_i'(w_i') := 
+    \begin{cases}
+        -c &  w_i'<0 \\
+        c  &  w_i'>0 \\
+    \end{cases} \\
+d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1) \\
+A' := \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i\\
+A'' := \sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i + 
+u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i) \\
+A_2 := \frac{m}{2A'}((u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} )-2A'')\\
+A_5 := \frac{1}{(1+d_N) + \frac{2M}{m} A'} \\
+A_6 :=
+\frac{A_2 (\frac{2M}{m}A' + 2(1+d_N)) - Mg(\cos\phi_0 + \cos\phi_{N+1})}{\frac{2M}{m}A'+(1+d_N)} \\
+\\\\\\
+\end{gather}
+$$
+
+So far $D(w_i)$ has been treated as a general function for aerodynamic drag,
+but in the simplest approximation of viscous drag,
+$D(w_i) = D \times w_i$ with a constant $D$.
