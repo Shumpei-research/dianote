@@ -38,7 +38,8 @@ Then $\phi_i \: (i=1,...,N+1)$ is intuitively defined as shown below so that you
 $$
 \begin{equation}
 \begin{gathered}
-\phi_i := \phi_{i-1} + \frac{\theta_{i-1} - \pi}{2} + \frac{\theta_{i} - \pi}{2}\\
+\phi_i := \phi_{i-1} + \frac{\theta_{i-1} - \pi}{2} + \frac{\theta_{i} - \pi}{2}
+= \phi _0 - \frac{\theta_i}{2} - i\pi + \sum_{j=1}^{i}\theta_j\\
 (\theta_0 , \theta_{N+1} := 0 \text{ just for simplicity})
 \end{gathered}
 \end{equation}
@@ -227,6 +228,8 @@ I\dot{\omega_i} = rS_i \\
 \end{align}
 $$
 
+![fig10_4](./fig/fig-04.png)
+
 If you account for aerodynamic drag $D>0$,
 so that the rotational velocity is not accelerated limitlessly, 
 
@@ -318,6 +321,21 @@ $$
 
 Only the linear regime is considered in the following.
 
+### 1-2-Appendix: Capstan Equation
+
+When accelerating, 
+
+![fig10_2](./fig/fig-02.png)
+
+$$
+\begin{gather}
+T(\theta) = T_i + \int _{\theta = 0}^{\theta} cT(\theta) \, d\theta\\
+\frac{\delta}{\delta \theta} T(\theta) = cT(\theta) \\
+T(\theta) = T_i e^{c \theta} \\
+T_{i-1} = T_i e^{c \theta'_i}
+\end{gather}
+$$
+
 ### 1-3. Equations of motions and constraints
 Suppose the system where the input is the force applied from hands to sticks. 
 Let $\boldsymbol{F_0, F_{N+1}}$ the force applied to each stick. Let $M$ the mass of a stick. 
@@ -331,6 +349,10 @@ M\boldsymbol{a_{N+1}} &= -\boldsymbol{T_N} + M\boldsymbol{g} + \boldsymbol{F_{N+
 m\boldsymbol{a_i}     &= \boldsymbol{T_i} - \boldsymbol{T_{i-1}} + m\boldsymbol{g}
 \end{align}
 $$
+
+
+![fig10_3](./fig/fig-03.png)
+
 
 The constraint of the system is that the total length of string is a constant. 
 Let $L$ the total length of string.
@@ -549,6 +571,20 @@ F_0^\beta \\ F_{N+1}^\beta
 -(g\cos\phi_0 +\frac{A_6}{M}) \\
 -(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
 \end{pmatrix} \\
+\begin{pmatrix}
+a_0^\beta \\ a_{N+1}^\beta
+\end{pmatrix}
+= \begin{bmatrix}
+\frac{1}{M}  & \frac{1 - 2A_5}{M} \\
+-\frac{1}{M} & \frac{1 - 2d_N A_5}{M}
+\end{bmatrix}
+\begin{pmatrix}
+\frac{F_0^\beta - F_{N+1}^\beta}{2} \\ \frac{F_0^\beta + F_{N+1}^\beta}{2}
+\end{pmatrix}
++\begin{pmatrix}
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
+-(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
+\end{pmatrix} \\
 \end{gather}
 $$
 
@@ -587,32 +623,32 @@ $$
 \begin{gather}
 \begin{pmatrix}
 a_0^\alpha \\ 
-a_0^\beta\\ 
 a_{N+1}^\alpha \\ 
+a_0^\beta\\ 
 a_{N+1}^\beta \\ 
 a_i^\alpha\\ a_i^\beta \\ 
 ...\\ ... \\ 
 \end{pmatrix}
 = \begin{bmatrix}
 \frac{1}{M} & 0 & 0 & 0\\
-0 & \frac{1 - A_5}{M} & 0 & - \frac{A_5}{M} \\
-0 & 0 & \frac{1}{M} & 0\\
-0 & -\frac{d_N A_5}{M} & 0 & \frac{1 - d_N A_5}{M}\\
-0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} & 0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
-0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} & 0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
+0 & \frac{1}{M} & 0 & 0\\
+0 & 0 & \frac{1}{M} & \frac{1 - 2A_5}{M} \\
+0 & 0 & -\frac{1}{M} & \frac{1 - 2 d_N A_5}{M} \\
+0 & 0 & 0 & \frac{2A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
+0 & 0 & 0 & \frac{2A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
 ... \\
 ... \\
 \end{bmatrix}
 \begin{pmatrix}
 F_0^\alpha \\ 
-F_0^\beta \\ 
 F_{N+1}^\alpha \\
-F_{N+1}^\beta
+\frac{F_0^\beta-F_{N+1}^\beta}{2} \\ 
+\frac{F_0^\beta+F_{N+1}^\beta}{2}
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
--(g\cos\phi_0 +\frac{A_6}{M}) \\
 -g\sin\phi_{N+1}\\
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
 -(g\cos\phi_{N+1} +d_N\frac{A_6}{M})\\
 \frac{A_6}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
 \frac{A_6}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
@@ -640,9 +676,8 @@ Thus, only one degree of freedom, $F_0^\beta + F_{N+1}^\beta$ is used for all th
 The direction of $\boldsymbol{a}_i$ is predetermined and cannot be modulated.
 The stick movements in $\beta$ direction are determined by another degree of freedom,
 say $F_0^\beta - F_{N+1}^\beta$.
-The stick movements in $\alpha$ direction are affected only by gravity and input forces.
-Thus, these movements are independent and uses $F_0^\alpha, F_{N+1}^\alpha$ each,
-freely controlable.
+The stick movements in $\alpha$ direction are affected only by gravity and input forces, 
+and these movements are independently controlable by $F_0^\alpha, F_{N+1}^\alpha$ each.
 
 A useful conversion of the solution is, using two-dimensional rotation matrix $\boldsymbol{R}$,
 
@@ -765,7 +800,7 @@ $$
 \end{gather}
 $$
 
-Only from the state $\boldsymbol{X} (t=t)$, the following is determined as seen above.
+Only from the state $\boldsymbol{X} (t=t)$, the following is determined.
 
 $$
 \begin{gather}
@@ -816,13 +851,13 @@ $$
 \begin{gather}
 \theta_0 , \theta_{N+1} := 0 \\
 \psi_i := \frac{\theta_i - \pi}{2}\\
-\phi_i := \phi_{i-1} + \psi_{i-1} + \psi_{i} = \phi_0  + (2\sum_{j=0}^{i} \psi_j )- \psi _0 - \psi_i\\
+\phi_i := \phi_{i-1} + \psi_{i-1} + \psi_{i} = \phi_0 -\frac{\pi}{2} - \psi_i + (2\sum_{j=1}^{i} \psi_j )\\
 \end{gather}
 $$
 
-With $\boldsymbol{X, F}$, the rotational accelerations $\dot{w}_i$ is determined,
-and all the accelerations $a_i^{\alpha,\beta}$ is determined as seen above. 
-Then, as we saw above, $\dot{u}_i^{\alpha,\beta}$ is easily obtained.
+With $\boldsymbol{X, F}$, the rotational accelerations $\dot{w}_i$ 
+and all the accelerations $a_i^{\alpha,\beta}$ are determined. 
+Then, $\dot{u}_i^{\alpha,\beta}$ are easily obtained.
 
 $$
 \begin{gather}
@@ -846,32 +881,32 @@ F_{N+1}^\beta
 (\frac{A_6(d_i-d_{i-1})}{mJ} + D(w_i))\\
 \begin{pmatrix}
 a_0^\alpha \\ 
-a_0^\beta\\ 
 a_{N+1}^\alpha \\ 
+a_0^\beta\\ 
 a_{N+1}^\beta \\ 
 a_i^\alpha\\ a_i^\beta \\ 
 ...\\ ... \\ 
 \end{pmatrix}
 = \begin{bmatrix}
 \frac{1}{M} & 0 & 0 & 0\\
-0 & \frac{1 - A_5}{M} & 0 & - \frac{A_5}{M} \\
-0 & 0 & \frac{1}{M} & 0\\
-0 & -\frac{d_N A_5}{M} & 0 & \frac{1 - d_N A_5}{M}\\
-0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} & 0 & \frac{A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
-0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} & 0 & \frac{A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
+0 & \frac{1}{M} & 0 & 0\\
+0 & 0 & \frac{1}{M} & \frac{1 - 2A_5}{M} \\
+0 & 0 & -\frac{1}{M} & \frac{1 - 2 d_N A_5}{M} \\
+0 & 0 & 0 & \frac{2A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
+0 & 0 & 0 & \frac{2A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
 ... \\
 ... \\
 \end{bmatrix}
 \begin{pmatrix}
 F_0^\alpha \\ 
-F_0^\beta \\ 
 F_{N+1}^\alpha \\
-F_{N+1}^\beta
+\frac{F_0^\beta-F_{N+1}^\beta}{2} \\ 
+\frac{F_0^\beta+F_{N+1}^\beta}{2}
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
--(g\cos\phi_0 +\frac{A_6}{M}) \\
 -g\sin\phi_{N+1}\\
+-(g\cos\phi_0 +\frac{A_6}{M}) \\
 -(g\cos\phi_{N+1} +d_N\frac{A_6}{M})\\
 \frac{A_6}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
 \frac{A_6}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
