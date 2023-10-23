@@ -1,5 +1,28 @@
 # Generalized diabolo model and analytical solution
 
+
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Generalized diabolo model and analytical solution](#generalized-diabolo-model-and-analytical-solution)
+  - [1. Definitions and Preparations](#1-definitions-and-preparations)
+    - [1-1. Geometry](#1-1-geometry)
+    - [1-2 Frictions](#1-2-frictions)
+    - [1-2-Appendix: Capstan Equation](#1-2-appendix-capstan-equation)
+    - [1-3. Equations of motions and constraints](#1-3-equations-of-motions-and-constraints)
+  - [2. Solution](#2-solution)
+    - [2-1. Deriviation of Accelerations](#2-1-deriviation-of-accelerations)
+    - [2-2 (Re-stating) Formula for Numerical Calculation](#2-2-re-stating-formula-for-numerical-calculation)
+
+<!-- /code_chunk_output -->
+
+
+
+
+
+
 ## 1. Definitions and Preparations
 
 ### 1-1. Geometry
@@ -366,6 +389,16 @@ $$
 \end{align}
 $$
 
+There is another physical constraint that the tension cannot be negative.
+This is the constraint for the input forces:
+the input forces must be chosen so that the string does not loosen.
+
+$$
+\begin{align}
+T_i \ge 0 \; \forall i
+\end{align}
+$$
+
 The goal is to solve these equations to get $\boldsymbol{a}$ as a function of $\boldsymbol{F}$.
 Once $\boldsymbol{a}$ is obtained, 
 the differential equations for the state of system $(\boldsymbol{x,u})$ are set, 
@@ -378,7 +411,7 @@ but they can be easily derived as secondary results.)
 
 ### 2-1. Deriviation of Accelerations
 
-First, tensions are compressed to $T_0$ .
+First, tensions are linear to $T_0$ .
 
 $$
 \begin{gather}
@@ -405,7 +438,7 @@ u_i^\beta \frac{\dot{\theta_i}}{2} \cos \psi_i)
 \end{gather}
 $$
 
-The equations of motions are rewritten in rotating coordinates,
+The equations of motions written in rotating coordinates:
 
 $$
 \begin{gather}
@@ -658,6 +691,15 @@ F_{N+1}^\alpha \\
 \end{gather}
 $$
 
+For the tensions to be positive,
+
+$$
+\begin{gather}
+T_i \ge 0 \; \forall i \Leftrightarrow T_0 \ge 0 
+\Leftrightarrow F_0^\beta + F_{N+1}^{\beta} \ge -\frac{A_6}{A_5}
+\end{gather}
+$$
+
 Adding the equations for the rotational motions will complete the solution,
 
 $$
@@ -673,7 +715,8 @@ The forces diabolos feel are only the tension and gravity.
 And the ratio of each tension is predetermined by the state.
 Only $T_0$, the magnitude of tensions can be modulated by input forces.
 Thus, only one degree of freedom, $F_0^\beta + F_{N+1}^\beta$ is used for all the diabolos.
-The direction of $\boldsymbol{a}_{i} $ is predetermined and cannot be modulated.
+The direction of $ \boldsymbol{a}_{i}$
+is predetermined and cannot be modulated.
 The stick movements in $\beta$ direction are determined by another degree of freedom,
 say $F_0^\beta - F_{N+1}^\beta$.
 The stick movements in $\alpha$ direction are affected only by gravity and input forces, 
@@ -758,6 +801,17 @@ it may be difficult to find the proper $\boldsymbol{F}$ so that the objects move
 But it is also possible to use $\boldsymbol{a}_{0,N+1}$ as the input, 
 and internally determine the necessary input forces,
 which allows you to just intuitively move the sticks.
+
+The inverse matrix does not exist in special cases, where $\sin \psi_i =0 ,\forall i$.
+This means the case where all diabolos are on a straight line,
+such as the moment when a single diabolo is ejected from the string.
+In this case, positive $a_0^\beta + a_{N+1}^\beta$ is not physically 
+allowed as you cannnot stretch the string,
+thus the forces for such accelerations do not exist.
+Practically in the simulation, 
+this issue can possibly be resolved by capping the input forces.
+
+
 
 ### 2-2 (Re-stating) Formula for Numerical Calculation
 
@@ -981,6 +1035,15 @@ A_6 :=
 A_2 + \frac{A_2(1+d_N) - Mg(\cos\phi_0 + \cos\phi_{N+1})}{\frac{2M}{m}A' + (1+d_N)}
 \end{gather}
 $$
+
+Lastly, the input forces must satisfy
+
+$$
+\begin{gather}
+F_0^\beta + F_{N+1}^{\beta} \ge -\frac{A_6}{A_5}
+\end{gather}
+$$
+
 
 So far $D(w_i)$ has been treated as a general function for aerodynamic drag,
 but in the simplest approximation of viscous drag,
