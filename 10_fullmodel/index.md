@@ -770,7 +770,7 @@ The forces diabolos feel are only the tension and gravity.
 And the ratio of each tension is predetermined by the state.
 Only $T_0$, the magnitude of tensions can be modulated by input forces.
 Thus, only one degree of freedom, $F_0^\beta + F_{N+1}^\beta$ is used for all the diabolos.
-The direction of $ \boldsymbol{a}_{i}$
+The direction of \(\boldsymbol{a}_{i}\)
 is predetermined and cannot be modulated.
 The stick movements in $\beta$ direction are determined by another degree of freedom,
 say $F_0^\beta - F_{N+1}^\beta$.
