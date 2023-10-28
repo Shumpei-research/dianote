@@ -27,7 +27,14 @@
 
 ### 1-1. Geometry
 
-Let N diabolos on the string. We number the objects from left to right, left stick being 0 and right stick being N+1, diabolos being 1,...,N.
+We only consider two-dimensional motions.
+We ignore the size of the diabolo axel, such that the diabolos are considered point masses.
+We do consider the friction, in which the radius of the diabolo axel matters and we don't ignore it.
+That is, we consider the axel radius to be negligibly small compared to the length scale of string and point mass motions,
+which is usually a physically reasonable approximation.
+
+Let N diabolos on the string. 
+We number the objects from left to right, left stick being 0 and right stick being N+1, diabolos being 1,...,N.
 With these numberings, position $\boldsymbol{x_i} \: (i=0,...,N+1)$
  and their time-differentials velocity $\boldsymbol{u_i}$ and acceleration $\boldsymbol{a_i}$ are defined.
 
@@ -51,10 +58,10 @@ $\phi_0, \phi_{N+1}$ at the sticks are defined so that $\boldsymbol{\beta_0},\bo
 ![fig10_1](./fig/fig-01.png)
 
 Here, these angles have a redundancy of $2n\pi$ .
-This redundancy is utilized to naturally express the string wrapping around the axes of diabolos.
-In the simplest situation where all the diabolos are simply sitting on the string without wrapping, 
+This redundancy is utilized to express the string wrapping around the axel of diabolos.
+In the situation where all the diabolos are simply sitting on the string without wrapping, 
 $\theta_i$ are defined so that $0 \le\theta_i < 2\pi$ .
-In this case, especially $\pi \le \theta_i < 2\pi$ , since diabolos are not flying.
+Note that physics require $\pi \le \theta_i < 2\pi$ , since diabolos are not flying.
 Additionally, define so that $0 \le \phi_0 < 2\pi$ .
 Then $\phi_i \: (i=1,...,N+1)$ is intuitively defined as shown below so that you tilt the coordinates as you go from left to right.
 
@@ -62,17 +69,22 @@ $$
 \begin{equation}
 \begin{gathered}
 \phi_i := \phi_{i-1} + \frac{\theta_{i-1} - \pi}{2} + \frac{\theta_{i} - \pi}{2}
-= \phi _0 - \frac{\theta_i}{2} - i\pi + \sum_{j=1}^{i}\theta_j\\
-(\theta_0 , \theta_{N+1} := 0 \text{ just for simplicity})
+= \phi_{i-1} + \psi_{i-1} + \psi_{i}
+= \phi_0 -\frac{\pi}{2} - \psi_i + (2\sum_{j=1}^{i} \psi_j )\\
+\text{where } \psi_i := \frac{\theta_i - \pi}{2}\\
+\theta_0 , \theta_{N+1} := 0
+,\; \psi_0, \psi_{N+1} = - \frac{\pi}{2}\\
 \end{gathered}
 \end{equation}
 $$
 
+Here defined another angle $\psi_i$ as a simple derivative of $\theta_i$.
+
 In the time-dependent context, $0 \le \phi_0 < 2\pi$ at time 0.
 Then all angles are allowed to change continuously.
-The wrapping is introduced by the extension of this simplest situation.
+The wrapping is introduced by the extension of this simple situation.
 As you wrap a diabolo i, you increase $\theta_i$ from $0-2\pi$ regime to $2\pi - 4\pi$ regime.
-Also $\phi_i$ increase by about $\pi$.
+Also $\phi_i$ increases by about $\pi$.
 
 To provide the language, "knot degree" $k_i$ is defined:
 0 for zero-wrapped state, 
@@ -93,15 +105,6 @@ when the diabolos actually detach from and attach to the string.
 Now that all $\theta_i$ and $\phi_0$ is non-arbitrarily defined, 
 $\phi_i$ is also non-arbitrarily defined by the definition above.
 
-We define another angle $\psi_i$ as a simple derivative of $\theta_i$, 
-which will be useful to simplify the equations later.
-
-$$
-\begin{gather}
-\psi_i := \frac{\theta_i - \pi}{2}\\
-\psi_0, \psi_{N+1} := - \frac{\pi}{2}\\
-\end{gather}
-$$
 
 We adopted the system where we first define $\phi_0$ and $\theta_i$ , 
 then secondarily defined $\phi_i$. 
@@ -214,8 +217,7 @@ u_{i-1}^\beta \cos \psi_{i-1}
 }
 {l_{i-1}}
 )
-\end{gathered}\\
-\dot{\psi_i} = \frac{\dot{\theta_i}}{2}
+\end{gathered}
 \end{gather}
 $$
 
@@ -282,34 +284,46 @@ $$
 
 Here, the term $\dot{\phi_i}r$ should also be included if rigorous 
 (imagine you spin the entire system without any other motion).
-But this term is practically very small, 
-and can be ignored as a limit case of $r \rightarrow 0$.
+But here it is ignored as $r \rightarrow +0$.
 
 The direction of friction is determined by the sign of $w_i'$,
-here refered to as "acceleration state",
-which can take "accelerating" state or "decelerating" state.
+and the diabolo's rotation accellerates or decelerates depending on it.
 
 $$
 \begin{cases}
-\text{accelerating if } w_i' < 0\\
-\text{decelerating if } w_i' > 0\\
+\text{accelerates if } w_i' < 0 \text{ so that } T_{i-1} > T_{i}\\
+\text{decelerates if } w_i' > 0 \text{ so that } T_{i-1} < T_{i}\\
 \end{cases}
 $$
 
-In the linear friction regime, the friction is determined by 
-friction coefficient $c$, 
-wrapping angle $\theta'$, 
-and the acceleration state.
-The effective friction coefficient $c_i'$ is introduced to simplify the expression. 
-With capstan equation,
+Generally, the friction is determined by the tension, relative velocity, and contact angle $\theta'$, 
 
 $$
-\begin{align}
-\theta' &= 
+\begin{gather}
+\theta' = 
     \begin{cases}
         \theta - \pi & (\theta >\pi)\\
         \theta + \pi & (\theta <-\pi)\\
     \end{cases} \\
+T_i = f(T_{i-1} ; w_i',\theta_i')
+\end{gather}
+$$
+
+In a linear approximation, 
+tension ratio is determined by a function f:
+
+$$
+\begin{equation}
+T_i = T_{i-1}  \times f(w_i',\theta_i')
+\end{equation}
+$$
+
+With further approximation, the friction obeys friction coefficient $c$, 
+and the capstan equation (see appendix) holds.
+The effective friction coefficient $c_i'$ is introduced to simplify the expression. 
+
+$$
+\begin{align}
 c_i'(w_i') &:= 
     \begin{cases}
         -c &  w_i'<0 \\
@@ -324,27 +338,14 @@ Modifying $c_i'(w_i')$, such that it is zero when decelerating, easily accounts 
 Additionally, this implies the possibility of extending to generalized continuous function, such as $c_i'(w_i') \approx \tanh$. 
 And the step function would be represented as a certain limit case.
 
-In a little bit more generalized linear approximation, 
-tension ratio is determined by a function f:
-
-$$
-\begin{equation}
-T_i = T_{i-1}  \times f(w_i',\theta_i')
-\end{equation}
-$$
-
-Further, when the friction is not assumed linear, 
-$f$ needs to be
-
-$$
-\begin{equation}
-T_i = f(T_{i-1} ; w_i',\theta_i')
-\end{equation}
-$$
-
-Only the linear regime is considered in the following.
+The discussion below holds for the linear regime, but not for the non-linear regime.
 
 ### 1-2-Appendix: Capstan Equation
+
+<details>
+<summary>
+Capstan Equation
+</summary>
 
 When accelerating, 
 
@@ -359,6 +360,8 @@ T_{i-1} = T_i e^{c \theta'_i}
 \end{gather}
 $$
 
+</details>
+
 ### 1-3. Equations of motions and constraints
 Suppose the system where the input is the force applied from hands to sticks. 
 Let $\boldsymbol{F_0, F_{N+1}}$ the force applied to each stick. Let $M$ the mass of a stick. 
@@ -366,11 +369,13 @@ Let $\boldsymbol{g}$ the standard acceleration of gravity.
 Then the equations of motions are,
 
 $$
-\begin{align}
+\begin{equation}
+\begin{aligned}
 M\boldsymbol{a_0}     &= \boldsymbol{T_0} + M\boldsymbol{g} + \boldsymbol{F_0} \\
 M\boldsymbol{a_{N+1}} &= -\boldsymbol{T_N} + M\boldsymbol{g} + \boldsymbol{F_{N+1}} \\
 m\boldsymbol{a_i}     &= \boldsymbol{T_i} - \boldsymbol{T_{i-1}} + m\boldsymbol{g}
-\end{align}
+\end{aligned}
+\end{equation}
 $$
 
 
@@ -394,9 +399,9 @@ This is the constraint for the input forces:
 the input forces must be chosen so that the string does not loosen.
 
 $$
-\begin{align}
+\begin{equation}
 T_i \ge 0 \; \forall i
-\end{align}
+\end{equation}
 $$
 
 The goal is to solve these equations to get $\boldsymbol{a}$ as a function of $\boldsymbol{F}$.
@@ -414,10 +419,10 @@ but they can be easily derived as secondary results.)
 First, tensions are linear to $T_0$ .
 
 $$
-\begin{gather}
+\begin{gathered}
 T_i = T_0 \times d_i \\
 d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1)
-\end{gather}
+\end{gathered}
 $$
 
 The constraint is solved geometrically,
@@ -531,16 +536,7 @@ T_0 =
 \end{equation}
 $$
 
-Both $A_1,A_2$ are determined by state variables,
-
-$$
-\begin{gather}
-A_1 = A_1(w_{0,...,N},\theta_{1,...,N},u_{0,...,N+1}^\beta,u_{1,...,N}^{\alpha}) \\
-A_2 = A_2(w_{0,...,N},\theta_{1,...,N},l_{0,...,N},u_{0,...,N+1}^{\alpha,\beta})
-\end{gather}
-$$
-
-Lastly,
+Then,
 
 $$
 \begin{gather}
@@ -557,39 +553,99 @@ g\cos\phi_{N+1} +
 \end{cases} \\
 (a_0^{\beta} + a_{N+1}^{\beta}) =
 -\frac{A_1}{M}(1+d_N) (a_0^{\beta} + a_{N+1}^{\beta})
-+\frac{A_2}{M}(1+d_N)
+-\frac{A_2}{M}(1+d_N)
 -g(\cos \phi_0 + \cos \phi_{N+1})
 +\frac{F_0^\beta + F_{N+1}^\beta}{M} \\
 (a_0^{\beta} + a_{N+1}^{\beta}) = 
 \frac{(F_0^\beta + F_{N+1}^\beta) }
 {M + A_1(1+d_N)} +
-\frac{A_2(1+d_N) - Mg (\cos \phi_0 + \cos \phi_{N+1})}
+\frac{-A_2(1+d_N) - Mg (\cos \phi_0 + \cos \phi_{N+1})}
 {M + A_1(1+d_N)} \\
 = A_3(F_0^\beta + F_{N+1}^\beta) + A_4 \\
+T_0 = 
+A_1 A_3(F_0^\beta + F_{N+1}^\beta) + (A_1 A_4 + A_2) 
+=A_5(F_0^\beta + F_{N+1}^\beta) + A_6 \\
+\end{gather}
+$$
+
+Cleaning the coefficients:
+
+$$
+\begin{gather}
+A_5 
+= \frac{1}{(1+d_N) + 2\frac{M}{m} 
+\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
+\begin{aligned}
+A_6 
+= &- M A_5 (g (\cos \phi_0 + \cos \phi_{N+1})
++(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
+&+2 \sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i -
+u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
+\end{aligned}
+\end{gather}
+$$
+
+<details>
+<summary>
+calculation
+</summary>
+
+$$
+\begin{gather}
+A' := \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i\\
+A'' := (u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) +
+2 \sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i -
+u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i) \\
+A_1 = \frac{m}{2 A'} \\
+A_2 = \frac{-m A''}{2A'}\\
+A_3 = \frac{1}{M+A_1(1+d_N)}
+= \frac{2A'}{2M A' + m(1+d_N)}\\
+A_4 = \frac{-A_2 (1+d_N) - Mg(\cos \phi_0 + \cos \phi_{N+1})}{M+A_1(1+d_N)}
+=\frac{A'' (1+d_N) - 2\frac{M}{m}g A'(\cos \phi_0 + \cos \phi_{N+1})}{(1+d_N) + 2\frac{M}{m}A'} \\
+A_5 = A_1 A_3 = \frac{1}{(1+d_N) + 2\frac{M}{m} A'} \\
+= \frac{1}{(1+d_N) + 2\frac{M}{m} 
+\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
+A_6 = A_1 A_4 + A_2
+= \frac{-m A''}{2A'} +
+\frac{m A'' (1+d_N) - 2Mg A'(\cos \phi_0 + \cos \phi_{N+1})}
+{2A'((1+d_N) + 2\frac{M}{m}A')}\\
+=\frac{m A'' (1+d_N) - 2Mg A'(\cos \phi_0 + \cos \phi_{N+1})
+-mA'' ((1+d_N)+2\frac{M}{m}A')}
+{2A'((1+d_N) + 2\frac{M}{m}A')}\\
+=\frac{- Mg (\cos \phi_0 + \cos \phi_{N+1})
+-M A''}
+{(1+d_N) + 2\frac{M}{m}A'}
+=-M(A'' + g (\cos \phi_0 + \cos \phi_{N+1})) A_5 \\
+= -M A_5 (g (\cos \phi_0 + \cos \phi_{N+1})
++(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) +
+2 \sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i -
+u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
+\end{gather}
+$$
+
+</details>
+
+With this,
+
+$$
+\begin{gather}
 \begin{cases}
 a_0^\beta = 
--\frac{1}{M}((A_3(F_0^\beta + F_{N+1}^\beta) + A_4)A_1 + A_2) - 
+-\frac{1}{M}(A_5(F_0^\beta + F_{N+1}^\beta) + A_6) - 
 g\cos\phi_0 + 
 \frac{1}{M}F_0^{\beta}
 \\
 a_{N+1}^\beta = 
--\frac{1}{M} d_{N} ((A_3(F_0^\beta + F_{N+1}^\beta) + A_4)A_1 + A_2) - 
+-\frac{1}{M} d_{N} (A_5(F_0^\beta + F_{N+1}^\beta) + A_6) - 
 g\cos\phi_{N+1} + 
 \frac{1}{M}F_{N+1}^{\beta}
 \end{cases} \\
-\begin{cases}
-a_0^\beta = 
-\frac{1 - A_1 A_3}{M} F_0^\beta - \frac{A_1 A_3}{M}F_{N+1}^\beta
--(g\cos\phi_0
-+\frac{A_1 A_4 + A_2}{M})
-\\
-a_{N+1}^\beta = 
--\frac{d_N A_1 A_3}{M} F_0^\beta + \frac{1 - d_N A_1 A_3}{M}F_{N+1}^\beta
--(g\cos\phi_{N+1}
-+d_N\frac{A_1 A_4 + A_2}{M})
-\end{cases} \\
-A_5 := A_1 A_3 \\
-A_6 := A_1 A_4 + A_2 \\
 \begin{pmatrix}
 a_0^\beta \\ a_{N+1}^\beta
 \end{pmatrix}
@@ -625,7 +681,6 @@ Additionally,
 
 $$
 \begin{gather}
-T_0 = A_5(F_0^\beta + F_{N+1}^\beta) + A_6 \\
 \begin{cases}
 a_0^\alpha = \frac{1}{M} F_0^\alpha -g\sin\phi_0 \\
 a_{N+1}^\alpha =\frac{1}{M} F_{N+1}^\alpha -g\sin\phi_{N+1}   
@@ -1024,15 +1079,18 @@ c_i'(w_i') :=
         c  &  w_i'>0 \\
     \end{cases} \\
 d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1) \\
-A' := \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i\\
-A'' := \sum_{i=1}^{N}
+A_5 
+= \frac{1}{(1+d_N) + 2\frac{M}{m} 
+\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
+\begin{aligned}
+A_6 
+= &- M A_5 (g (\cos \phi_0 + \cos \phi_{N+1})
++(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
+&+2 \sum_{i=1}^{N}
 (-g\cos\phi_i\sin\psi_i -
 u_i^\alpha \dot{\phi_i} \sin\psi_i + 
-u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i) \\
-A_2 := \frac{-m}{2A'}((u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} )+2A'')\\
-A_5 := \frac{1}{(1+d_N) + \frac{2M}{m} A'} \\
-A_6 :=
-A_2 + \frac{A_2(1+d_N) - Mg(\cos\phi_0 + \cos\phi_{N+1})}{\frac{2M}{m}A' + (1+d_N)}
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
+\end{aligned}
 \end{gather}
 $$
 
