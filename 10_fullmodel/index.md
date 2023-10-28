@@ -28,10 +28,17 @@
 ### 1-1. Geometry
 
 We only consider two-dimensional motions.
-We ignore the size of the diabolo axel, such that the diabolos are considered point masses.
+We ignore the size of the diabolo axel, so that the diabolos are considered point masses.
 We do consider the friction, in which the radius of the diabolo axel matters and we don't ignore it.
 That is, we consider the axel radius to be negligibly small compared to the length scale of string and point mass motions,
 which is usually a physically reasonable approximation.
+We focus on a certain time-region in which all diabolos keep in contact with the string,
+without any attachment or detachment events.
+As these events are discrete in time,
+the real situation involving attachment and detachment (catch and throw)
+can be treated as the sequential time regions connected by those events.
+The solution we get here can easily be extended to such real situations
+by having a way to detect those events and a model for flying diabolos.
 
 Let N diabolos on the string. 
 We number the objects from left to right, left stick being 0 and right stick being N+1, diabolos being 1,...,N.
@@ -485,8 +492,31 @@ a_{i}^{\alpha} \\ a_{i}^{\beta}
 \end{gather}
 $$
 
+By solving these, we get
 
-With this,
+$$
+\begin{gather}
+T_0 = G (\frac{F_0^\beta + F_{N+1}^\beta}{2} + F_C) \\
+G = \frac{2}{(1+d_N) + 2\frac{M}{m} 
+\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
+\begin{gathered}
+F_C
+= M \times \frac{-1}{2}(g (\cos \phi_0 + \cos \phi_{N+1})
++(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
++2 \sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i -
+u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
+\end{gathered}\\
+\end{gather}
+$$
+
+<details>
+<summary>
+calculation
+</summary>
+
+By the equations,
 
 $$
 \begin{equation}
@@ -565,32 +595,11 @@ g\cos\phi_{N+1} +
 T_0 = 
 A_1 A_3(F_0^\beta + F_{N+1}^\beta) + (A_1 A_4 + A_2) 
 =A_5(F_0^\beta + F_{N+1}^\beta) + A_6 \\
+= G (\frac{F_0^\beta + F_{N+1}^\beta}{2} + F_C)
 \end{gather}
 $$
 
-Cleaning the coefficients:
-
-$$
-\begin{gather}
-A_5 
-= \frac{1}{(1+d_N) + 2\frac{M}{m} 
-\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
-\begin{aligned}
-A_6 
-= &- M A_5 (g (\cos \phi_0 + \cos \phi_{N+1})
-+(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
-&+2 \sum_{i=1}^{N}
-(-g\cos\phi_i\sin\psi_i -
-u_i^\alpha \dot{\phi_i} \sin\psi_i + 
-u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
-\end{aligned}
-\end{gather}
-$$
-
-<details>
-<summary>
-calculation
-</summary>
+Coefficients are:
 
 $$
 \begin{gather}
@@ -625,11 +634,48 @@ A_6 = A_1 A_4 + A_2
 2 \sum_{i=1}^{N}
 (-g\cos\phi_i\sin\psi_i -
 u_i^\alpha \dot{\phi_i} \sin\psi_i + 
-u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)) \\
+G = 2A_5
+= \frac{2}{(1+d_N) + 2\frac{M}{m} 
+\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
+F_C = \frac{A_6}{2A_5}\\
+= M \times \frac{-1}{2}(g (\cos \phi_0 + \cos \phi_{N+1})
++(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) +
+2 \sum_{i=1}^{N}
+(-g\cos\phi_i\sin\psi_i -
+u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)) \\
 \end{gather}
 $$
 
 </details>
+
+These quantities can be interpreted this way:
+the force you apply in the $\beta$ direction is linearly converted to the tension
+with the gear ratio $G$.
+Imagine the analogy in which the string and diabolos are acting as a gearbox 
+or pulley.
+This is part of why you can throw a diabolo very high,
+where you can convey a strong force to a diabolo with low gear ratio at the beginning,
+then as the diabolo accelerates upward and the string become closer to a straight line,
+you can still convey a force to the fast-moving diabolo with high gear ratio,
+just like you change the gears.
+$F_C$ represents a kind of centrifugal force.
+If you shut out the input force,
+such as by releasing sticks,
+the system obeys the equations with $F=0$.
+There will still be some tension due to this term.
+Imagine one diabolo and two sticks just rotating in the air.
+The sticks (and the diabolo) still "feel" the centrifugal force and there is tension.
+
+
+Below, we normalize the forces by the mass of stick $M$:
+
+$$
+\begin{gather}
+\hat{F} := \frac{F}{M}
+\end{gather}
+$$
 
 With this,
 
@@ -637,71 +683,70 @@ $$
 \begin{gather}
 \begin{cases}
 a_0^\beta = 
--\frac{1}{M}(A_5(F_0^\beta + F_{N+1}^\beta) + A_6) - 
+-(\frac{G}{2}(\hat{F}_0^\beta + \hat{F}_{N+1}^\beta) + G\hat{F}_C) - 
 g\cos\phi_0 + 
-\frac{1}{M}F_0^{\beta}
+\hat{F}_0^{\beta}
 \\
 a_{N+1}^\beta = 
--\frac{1}{M} d_{N} (A_5(F_0^\beta + F_{N+1}^\beta) + A_6) - 
+-d_{N} (\frac{G}{2}(\hat{F}_0^\beta + \hat{F}_{N+1}^\beta) + G\hat{F}_C) - 
 g\cos\phi_{N+1} + 
-\frac{1}{M}F_{N+1}^{\beta}
+\hat{F}_{N+1}^{\beta}
 \end{cases} \\
 \begin{pmatrix}
 a_0^\beta \\ a_{N+1}^\beta
 \end{pmatrix}
 = \begin{bmatrix}
-\frac{1 - A_5}{M}  & - \frac{A_5}{M} \\
--\frac{d_N A_5}{M} & \frac{1 - d_N A_5}{M}
+\frac{2 - G}{2}  & - \frac{G}{2} \\
+-\frac{d_N G}{2} & \frac{2 - d_N G}{2}
 \end{bmatrix}
 \begin{pmatrix}
-F_0^\beta \\ F_{N+1}^\beta
+\hat{F}_0^\beta \\ \hat{F}_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
--(g\cos\phi_0 +\frac{A_6}{M}) \\
--(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
+-(g\cos\phi_0 +G\hat{F}_C) \\
+-(g\cos\phi_{N+1} +d_NG\hat{F}_C)
 \end{pmatrix} \\
 \begin{pmatrix}
 a_0^\beta \\ a_{N+1}^\beta
 \end{pmatrix}
 = \begin{bmatrix}
-\frac{1}{M}  & \frac{1 - 2A_5}{M} \\
--\frac{1}{M} & \frac{1 - 2d_N A_5}{M}
+1  & (1 - G) \\
+-1 & (1 - d_N G)
 \end{bmatrix}
 \begin{pmatrix}
-\frac{F_0^\beta - F_{N+1}^\beta}{2} \\ \frac{F_0^\beta + F_{N+1}^\beta}{2}
+\frac{\hat{F}_0^\beta - \hat{F}_{N+1}^\beta}{2} \\ \frac{\hat{F}_0^\beta + \hat{F}_{N+1}^\beta}{2}
 \end{pmatrix}
 +\begin{pmatrix}
--(g\cos\phi_0 +\frac{A_6}{M}) \\
--(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
+-(g\cos\phi_0 +G\hat{F}_C) \\
+-(g\cos\phi_{N+1} +d_NG\hat{F}_C)
 \end{pmatrix} \\
 \end{gather}
 $$
+
 
 Additionally,
 
 $$
 \begin{gather}
 \begin{cases}
-a_0^\alpha = \frac{1}{M} F_0^\alpha -g\sin\phi_0 \\
-a_{N+1}^\alpha =\frac{1}{M} F_{N+1}^\alpha -g\sin\phi_{N+1}   
+a_0^\alpha =  \hat{F}_0^\alpha -g\sin\phi_0 \\
+a_{N+1}^\alpha = \hat{F}_{N+1}^\alpha -g\sin\phi_{N+1}   
 \end{cases} \\
 \begin{pmatrix}
 a_{i}^{\alpha} \\ a_{i}^{\beta}
 \end{pmatrix}=
-\frac{A_5}{m} 
+\frac{M}{m} 
 \begin{pmatrix}
 (d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
 \end{pmatrix}
-(F_0^\beta + F_{N+1}^\beta)+
+G
 (
-\frac{A_6}{m}
-\begin{pmatrix}
-(d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
-\end{pmatrix}
+\frac{\hat{F}_0^\beta + \hat{F}_{N+1}^\beta}{2} + \hat{F}_C
+)
 -g\begin{pmatrix}
 \sin \phi_{i} \\ \cos \phi_{i}
 \end{pmatrix}
-)\\
+\\
 \end{gather}
 $$
 
@@ -718,28 +763,38 @@ a_i^\alpha\\ a_i^\beta \\
 ...\\ ... \\ 
 \end{pmatrix}
 = \begin{bmatrix}
-\frac{1}{M} & 0 & 0 & 0\\
-0 & \frac{1}{M} & 0 & 0\\
-0 & 0 & \frac{1}{M} & \frac{1 - 2A_5}{M} \\
-0 & 0 & -\frac{1}{M} & \frac{1 - 2 d_N A_5}{M} \\
-0 & 0 & 0 & \frac{2A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
-0 & 0 & 0 & \frac{2A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & (1-G) \\
+0 & 0 & -1 & (1-d_N G) \\
+0 & 0 & 0 & \frac{M}{m} (d_{i} - d_{i-1}) \cos\psi_i G\\
+0 & 0 & 0 & \frac{M}{m} (d_{i} + d_{i-1}) \sin\psi_i G\\
 ... \\
 ... \\
 \end{bmatrix}
 \begin{pmatrix}
-F_0^\alpha \\ 
-F_{N+1}^\alpha \\
-\frac{F_0^\beta-F_{N+1}^\beta}{2} \\ 
-\frac{F_0^\beta+F_{N+1}^\beta}{2}
+\hat{F}_0^\alpha \\ 
+\hat{F}_{N+1}^\alpha \\
+\frac{\hat{F}_0^\beta-\hat{F}_{N+1}^\beta}{2} \\ 
+\frac{\hat{F}_0^\beta+\hat{F}_{N+1}^\beta}{2} + \hat{F}_C
+\end{pmatrix}
++\begin{pmatrix}
+0\\
+0\\
+-\hat{F}_C\\
+-d_N \hat{F}_C\\
+0\\
+0\\
+...\\
+...\\
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
--g\sin\phi_{N+1}\\
--(g\cos\phi_0 +\frac{A_6}{M}) \\
--(g\cos\phi_{N+1} +d_N\frac{A_6}{M})\\
-\frac{A_6}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
-\frac{A_6}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
+-g\sin\phi_{N+1} \\
+-g\cos\phi_0 \\
+-g\cos\phi_{N+1} \\
+-g \sin \phi_{i} \\
+-g \cos \phi_{i} \\
 ...\\
 ...\\
 \end{pmatrix}
@@ -751,7 +806,7 @@ For the tensions to be positive,
 $$
 \begin{gather}
 T_i \ge 0 \; \forall i \Leftrightarrow T_0 \ge 0 
-\Leftrightarrow F_0^\beta + F_{N+1}^{\beta} \ge -\frac{A_6}{A_5}
+\Leftrightarrow \frac{\hat{F}_0^\beta + \hat{F}_{N+1}^{\beta}}{2} \ge -\hat{F}_C
 \end{gather}
 $$
 
@@ -759,11 +814,22 @@ Adding the equations for the rotational motions will complete the solution,
 
 $$
 \begin{gather}
+\begin{gathered}
 \dot{w_i} = \frac{S_i}{mJ} - D(w_i) = \frac{- T_0(d_{i}-d_{i-1})}{mJ} -D(w_i) \\
-= - \frac{A_5 (d_i - d_{i-1})}{mJ}(F_0^\beta+F_{N+1}^\beta) - 
-(\frac{A_6(d_i-d_{i-1})}{mJ} + D(w_i))
+= - \frac{M G (d_i - d_{i-1})}{mJ}
+(\frac{\hat{F}_0^\beta+\hat{F}_{N+1}^\beta}{2}+\hat{F}_C) 
+-D(w_i)\\
+= - \frac{M G (d_i - d_{i-1})}{mJ}
+(\frac{\hat{F}_0^\beta+\hat{F}_{N+1}^\beta}{2}+\hat{F}_C) 
+-D w_i
+\end{gathered}
 \end{gather}
 $$
+
+So far $D(w_i)$ has been treated as a general function for aerodynamic drag,
+but in the simplest approximation of viscous drag,
+$D(w_i) = D \times w_i$ with a constant $D$, 
+as shown in the last line.
 
 There are some physical consequences we can see. 
 The forces diabolos feel are only the tension and gravity.
@@ -772,8 +838,9 @@ Only <span>$T_0$</span>, the magnitude of tensions can be modulated by input for
 Thus, only one degree of freedom, 
 <span>$F_0^\beta + F_{N+1}^\beta$</span> 
 is used for all the diabolos.
-The direction of <span>$\boldsymbol{a}_{i}$</span>
-is predetermined and cannot be modulated.
+The direction of 
+<span>$\boldsymbol{a}_{i}$</span>
+ is predetermined and cannot be modulated.
 The stick movements in $\beta$ direction are determined by another degree of freedom,
 say <span>$F_0^\beta-F_{N+1}^\beta$</span>.
 The stick movements in $\alpha$ direction are affected only by gravity and input forces, 
@@ -781,29 +848,49 @@ and these movements are independently controlable by
 <span>$F_0^\alpha, F_{N+1}^\alpha$ </span>
 each.
 
+We know that
+
+$$
+\begin{gather}
+\begin{pmatrix}
+a_0^\alpha \\ 
+a_0^\beta\\ 
+a_{N+1}^\alpha \\ 
+a_{N+1}^\beta
+\end{pmatrix} =
+\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 & \frac{2 - G}{2} & 0 & - \frac{G}{2} \\
+0 & 0 & 1 & 0\\
+0 & -\frac{d_N G}{2} & 0 & \frac{2 - d_N G}{2}
+\end{bmatrix}
+\begin{pmatrix}
+\hat{F}_0^\alpha \\ 
+\hat{F}_0^\beta \\ 
+\hat{F}_{N+1}^\alpha \\
+\hat{F}_{N+1}^\beta
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_0\\
+-g\cos\phi_0 - GF_C \\
+-g\sin\phi_{N+1}\\
+-g\cos\phi_{N+1} -d_N GF_C)
+\end{pmatrix}
+=\boldsymbol{B}
+\begin{pmatrix}
+\hat{F}_0^\alpha \\ 
+\hat{F}_0^\beta \\ 
+\hat{F}_{N+1}^\alpha \\
+\hat{F}_{N+1}^\beta
+\end{pmatrix}
++\boldsymbol{C}
+\end{gather}
+$$
+
 A useful conversion of the solution is, using two-dimensional rotation matrix $\boldsymbol{R}$,
 
 $$
 \begin{gather}
-\boldsymbol{B}
-:= \begin{bmatrix}
-\frac{1}{M} & 0 & 0 & 0\\
-0 & \frac{1 - A_5}{M} & 0 & - \frac{A_5}{M} \\
-0 & 0 & \frac{1}{M} & 0\\
-0 & -\frac{d_N A_5}{M} & 0 & \frac{1 - d_N A_5}{M}
-\end{bmatrix} \\
-\det(\boldsymbol{B}) =
-M^{-4} (1-(1+d_N)A_5) =
-M^{-4} \frac{1}{1 + \frac{A_1(1+d_N)}{M}}
-\ne 0 \text{ (except special cases)}
-\\
-\boldsymbol{C}
-:= \begin{pmatrix}
--g\sin\phi_0\\
--(g\cos\phi_0 +\frac{A_6}{M}) \\
--g\sin\phi_{N+1}\\
--(g\cos\phi_{N+1} +d_N\frac{A_6}{M})
-\end{pmatrix} \\
 \boldsymbol{R}_2 (a,b) := 
 \begin{bmatrix}
 \boldsymbol{R}(a) & 0 \\
@@ -819,7 +906,7 @@ M^{-4} \frac{1}{1 + \frac{A_1(1+d_N)}{M}}
 \end{gather}
 $$
 
-Then,
+And,
 
 $$
 \begin{gather}
@@ -831,17 +918,17 @@ a_{N+1}^y
 \end{pmatrix} =
 \boldsymbol{B'}
 \begin{pmatrix}
-F_0^x \\ 
-F_0^y \\ 
-F_{N+1}^x \\
-F_{N+1}^y
+\hat{F}_0^x \\ 
+\hat{F}_0^y \\ 
+\hat{F}_{N+1}^x \\
+\hat{F}_{N+1}^y
 \end{pmatrix} +
 \boldsymbol{C'} \\
 \begin{pmatrix}
-F_0^x \\ 
-F_0^y \\ 
-F_{N+1}^x \\
-F_{N+1}^y
+\hat{F}_0^x \\ 
+\hat{F}_0^y \\ 
+\hat{F}_{N+1}^x \\
+\hat{F}_{N+1}^y
 \end{pmatrix} =
 \boldsymbol{B'}^{-1}
 \begin{pmatrix}
@@ -854,6 +941,29 @@ a_{N+1}^y
 \end{gather}
 $$
 
+Note that 
+
+$$
+\begin{gather}
+\det(\boldsymbol{B}) =
+1 - \frac{1+d_N}{2}G
+= \frac{1}
+{1 + \frac{(1+d_N)}{2\frac{M}{m} 
+\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i}}
+\ne 0 \text{ (except special cases)}
+\\
+\boldsymbol{B}^{-1} = 
+\frac{1}{1-\frac{1+d_N}{2}G}
+\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 &  \frac{2 - d_N G}{2}& 0 & \frac{G}{2} \\
+0 & 0 & 1 & 0\\
+0 & \frac{d_N G}{2} & 0 & \frac{2 - G}{2}
+\end{bmatrix}
+\end{gather}
+\\
+$$
+
 This means that the input forces and the acceleration of sticks are linearly convertible in a given state.
 Suppose you simulate the system with input forces,
 it may be difficult to find the proper $\boldsymbol{F}$ so that the objects move intuitively.
@@ -862,11 +972,11 @@ and internally determine the necessary input forces,
 which allows you to just intuitively move the sticks.
 
 The inverse matrix does not exist in special cases, where $\sin \psi_i =0 ,\forall i$.
-This means the case where all diabolos are on a straight line,
+This is when all diabolos are on a straight line,
 such as the moment when a single diabolo is ejected from the string.
 In this case, positive $a_0^\beta + a_{N+1}^\beta$ is not physically 
 allowed as you cannnot stretch the string,
-thus the forces for such accelerations do not exist.
+thus the forces for such accelerations go to infinity.
 Practically in the simulation, 
 this issue can possibly be resolved by capping the input forces.
 
@@ -895,12 +1005,22 @@ $$
 $$
 
 And $l_N, u_{N+1}^\beta$ are determined by constraints.
+
+$$
+\begin{gather}
+l_N = L - \sum_{j=0}^{N-1} l_j \\
+u_{N+1}^{\beta} = - u_0^\beta + 2\sum_{i=1}^{N} u_i^\beta \sin\psi_i 
+\end{gather}
+$$
+
+
 The goal is to obtain the incremental time evolution for the given input:
 
 $$
 \begin{gather}
-\boldsymbol{X} (t=t+dt) = \boldsymbol{X} (t=t) + dt \times \dot{\boldsymbol{X}} |_{t=t} \\
-\dot{\boldsymbol{X}} |_{t=t} = \dot{\boldsymbol{X}} |_{t=t} (\boldsymbol{X}(t=t), \boldsymbol{F}(t=t)) \\
+\boldsymbol{X} (t=t'+dt) = \boldsymbol{X} (t=t') + dt \times \dot{\boldsymbol{X}} |_{t=t'} \\
+\dot{\boldsymbol{X}} |_{t=t'} 
+= \dot{\boldsymbol{X}} |_{t=t'} (\boldsymbol{X}(t=t'), \boldsymbol{F}(t=t')) \\
 = (
     \dot{\boldsymbol{x_0}}, 
     \dot{l}_{0,...,N-1},
@@ -913,11 +1033,11 @@ $$
 \end{gather}
 $$
 
-Only from the state $\boldsymbol{X} (t=t)$, the following is determined.
+Only from the state $\boldsymbol{X} (t=t')$, the following is determined.
 
 $$
 \begin{gather}
-\boldsymbol{X} (t=t)
+\boldsymbol{X} (t=t')
 \Rightarrow
 (
     \dot{\boldsymbol{x_0}}, 
@@ -964,82 +1084,8 @@ $$
 \begin{gather}
 \theta_0 , \theta_{N+1} := 0 \\
 \psi_i := \frac{\theta_i - \pi}{2}\\
-\phi_i := \phi_{i-1} + \psi_{i-1} + \psi_{i} = \phi_0 -\frac{\pi}{2} - \psi_i + (2\sum_{j=1}^{i} \psi_j )\\
-\end{gather}
-$$
-
-With $\boldsymbol{X, F}$, the rotational accelerations $\dot{w}_i$ 
-and all the accelerations $a_i^{\alpha,\beta}$ are determined. 
-Then, $\dot{u}_i^{\alpha,\beta}$ are easily obtained.
-
-$$
-\begin{gather}
-\boldsymbol{X} (t=t), \boldsymbol{F} (t=t)
-\Rightarrow
-(
-    \dot{u}_{0,...,N}^{\alpha,\beta},
-    \dot{u}_{N+1}^\alpha,
-    \dot{w_i}
-) (t=t)\\
-(
-F_0^\alpha 
-F_0^\beta 
-F_{N+1}^\alpha
-F_{N+1}^\beta
-)^T = 
-\boldsymbol{R}_2 (-\phi_0, -\phi_{N+1}) \boldsymbol{F}
-\\
-\dot{w_i}
-= - \frac{A_5 (d_i - d_{i-1})}{mJ}(F_0^\beta+F_{N+1}^\beta) - 
-(\frac{A_6(d_i-d_{i-1})}{mJ} + D(w_i))\\
-\begin{pmatrix}
-a_0^\alpha \\ 
-a_{N+1}^\alpha \\ 
-a_0^\beta\\ 
-a_{N+1}^\beta \\ 
-a_i^\alpha\\ a_i^\beta \\ 
-...\\ ... \\ 
-\end{pmatrix}
-= \begin{bmatrix}
-\frac{1}{M} & 0 & 0 & 0\\
-0 & \frac{1}{M} & 0 & 0\\
-0 & 0 & \frac{1}{M} & \frac{1 - 2A_5}{M} \\
-0 & 0 & -\frac{1}{M} & \frac{1 - 2 d_N A_5}{M} \\
-0 & 0 & 0 & \frac{2A_5 (d_{i} - d_{i-1}) \cos\psi_i }{m} \\
-0 & 0 & 0 & \frac{2A_5 (d_{i} + d_{i-1}) \sin\psi_i }{m} \\
-... \\
-... \\
-\end{bmatrix}
-\begin{pmatrix}
-F_0^\alpha \\ 
-F_{N+1}^\alpha \\
-\frac{F_0^\beta-F_{N+1}^\beta}{2} \\ 
-\frac{F_0^\beta+F_{N+1}^\beta}{2}
-\end{pmatrix}
-+\begin{pmatrix}
--g\sin\phi_0\\
--g\sin\phi_{N+1}\\
--(g\cos\phi_0 +\frac{A_6}{M}) \\
--(g\cos\phi_{N+1} +d_N\frac{A_6}{M})\\
-\frac{A_6}{m}(d_{i} - d_{i-1}) \cos\psi_i -g \sin \phi_{i} \\
-\frac{A_6}{m}(d_{i} + d_{i-1}) \sin\psi_i -g \cos \phi_{i} \\
-...\\
-...\\
-\end{pmatrix} \\
-\begin{pmatrix}
-    \dot{u_i^\alpha} \\ \dot{u_i^\beta}
-\end{pmatrix}
-=\begin{pmatrix}
-    a_i^\alpha + u_i^\beta \dot{\phi_i} \\
-    a_i^\beta - u_i^\alpha \dot{\phi_i}
-\end{pmatrix} \\
-\end{gather}
-$$
-
-where
-
-$$
-\begin{gather}
+\phi_i := \phi_{i-1} + \psi_{i-1} + \psi_{i} 
+= \phi_0 -\frac{\pi}{2} - \psi_i + (2\sum_{j=1}^{i} \psi_j )\\
 \begin{gathered}
 \dot{\phi_i} = 
 \frac{1}{2}(
@@ -1067,6 +1113,99 @@ u_{N+1}^\alpha
 }
 {l_{N}} 
 \\
+\end{gather}
+$$
+
+With $\boldsymbol{X, F}$, the rotational accelerations $\dot{w}_i$ 
+and point-mass accelerations $a_i^{\alpha,\beta}$ are determined. 
+Then, $\dot{u}_i^{\alpha,\beta}$ are easily obtained.
+
+$$
+\begin{gather}
+\boldsymbol{X} (t=t'), \boldsymbol{F} (t=t')
+\Rightarrow
+(
+    \dot{u}_{0,...,N}^{\alpha,\beta},
+    \dot{u}_{N+1}^\alpha,
+    \dot{w_i}
+) (t=t')\\
+\dot{w_i}
+= - \frac{M G (d_i - d_{i-1})}{mJ}
+(\frac{\hat{F}_0^\beta+\hat{F}_{N+1}^\beta}{2}+\hat{F}_C) -D w_i
+\\
+\begin{pmatrix}
+a_0^\alpha \\ 
+a_{N+1}^\alpha \\ 
+a_0^\beta\\ 
+a_{N+1}^\beta \\ 
+a_i^\alpha\\ a_i^\beta \\ 
+...\\ ... \\ 
+\end{pmatrix}
+= \begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & (1-G) \\
+0 & 0 & -1 & (1-d_N G) \\
+0 & 0 & 0 & \frac{M}{m} (d_{i} - d_{i-1}) \cos\psi_i G\\
+0 & 0 & 0 & \frac{M}{m} (d_{i} + d_{i-1}) \sin\psi_i G\\
+... \\
+... \\
+\end{bmatrix}
+\begin{pmatrix}
+\hat{F}_0^\alpha \\ 
+\hat{F}_{N+1}^\alpha \\
+\frac{\hat{F}_0^\beta-\hat{F}_{N+1}^\beta}{2} \\ 
+\frac{\hat{F}_0^\beta+\hat{F}_{N+1}^\beta}{2} + \hat{F}_C
+\end{pmatrix}
++\begin{pmatrix}
+0\\
+0\\
+-\hat{F}_C\\
+-d_N \hat{F}_C\\
+0\\
+0\\
+...\\
+...\\
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_0\\
+-g\sin\phi_{N+1} \\
+-g\cos\phi_0 \\
+-g\cos\phi_{N+1} \\
+-g \sin \phi_{i} \\
+-g \cos \phi_{i} \\
+...\\
+...\\
+\end{pmatrix}\\
+\begin{pmatrix}
+    \dot{u_i^\alpha} \\ \dot{u_i^\beta}
+\end{pmatrix}
+=\begin{pmatrix}
+    a_i^\alpha + u_i^\beta \dot{\phi_i} \\
+    a_i^\beta - u_i^\alpha \dot{\phi_i}
+\end{pmatrix} \\
+\end{gather}
+$$
+
+where
+
+$$
+\begin{gather}
+(
+\hat{F}_0^\alpha 
+\hat{F}_0^\beta 
+\hat{F}_{N+1}^\alpha
+\hat{F}_{N+1}^\beta
+)^T = 
+\frac{1}{M}
+\boldsymbol{R}_2^{-1} (\phi_0, \phi_{N+1})
+(
+F_0^x
+F_0^y
+F_{N+1}^x
+F_{N+1}^y
+)^T
+\\
 w_i' := w_i - \sum_{j=0}^{i-1}{\dot{l_j}}
 =w_i - (
 u_0^\beta + u_i^{\alpha} \cos \psi_i - u_i^{\beta} \sin \psi_i -
@@ -1083,18 +1222,17 @@ c_i'(w_i') :=
         c  &  w_i'>0 \\
     \end{cases} \\
 d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1) \\
-A_5 
-= \frac{1}{(1+d_N) + 2\frac{M}{m} 
+G = \frac{2}{(1+d_N) + 2\frac{M}{m} 
 \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
-\begin{aligned}
-A_6 
-= &- M A_5 (g (\cos \phi_0 + \cos \phi_{N+1})
+\begin{gathered}
+\hat{F}_C
+= \frac{-1}{2}(g (\cos \phi_0 + \cos \phi_{N+1})
 +(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
-&+2 \sum_{i=1}^{N}
++2 \sum_{i=1}^{N}
 (-g\cos\phi_i\sin\psi_i -
 u_i^\alpha \dot{\phi_i} \sin\psi_i + 
 u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
-\end{aligned}
+\end{gathered}
 \end{gather}
 $$
 
@@ -1102,11 +1240,7 @@ Lastly, the input forces must satisfy
 
 $$
 \begin{gather}
-F_0^\beta + F_{N+1}^{\beta} \ge -\frac{A_6}{A_5}
+\frac{\hat{F}_0^\beta + \hat{F}_{N+1}^{\beta}}{2} \ge -\hat{F}_C
 \end{gather}
 $$
 
-
-So far $D(w_i)$ has been treated as a general function for aerodynamic drag,
-but in the simplest approximation of viscous drag,
-$D(w_i) = D \times w_i$ with a constant $D$.
