@@ -9,12 +9,12 @@
 - [Generalized diabolo model and analytical solution](#generalized-diabolo-model-and-analytical-solution)
   - [1. Definitions and Preparations](#1-definitions-and-preparations)
     - [1-1. Geometry](#1-1-geometry)
-    - [1-2 Frictions](#1-2-frictions)
-    - [1-2-Appendix: Capstan Equation](#1-2-appendix-capstan-equation)
+    - [1-2. Frictions](#1-2-frictions)
+    - [1-2-Appendix. Capstan Equation](#1-2-appendix-capstan-equation)
     - [1-3. Equations of motions and constraints](#1-3-equations-of-motions-and-constraints)
   - [2. Solution](#2-solution)
-    - [2-1. Deriviation of Accelerations](#2-1-deriviation-of-accelerations)
-    - [2-2 (Re-stating) Formula for Numerical Calculation](#2-2-re-stating-formula-for-numerical-calculation)
+    - [2-1. Derivation of Accelerations](#2-1-derivation-of-accelerations)
+    - [2-2. Re-stating Formula for Numerical Calculation](#2-2-re-stating-formula-for-numerical-calculation)
 
 <!-- /code_chunk_output -->
 
@@ -25,22 +25,25 @@
 
 ## 1. Definitions and Preparations
 
-### 1-1. Geometry
-
 We only consider two-dimensional motions.
 We ignore the size of the diabolo axel, so that the diabolos are considered point masses.
 We do consider the friction, in which the radius of the diabolo axel matters and we don't ignore it.
 That is, we consider the axel radius to be negligibly small compared to the length scale of string and point mass motions,
 which is usually a physically reasonable approximation.
-We focus on a certain time-region in which all diabolos keep in contact with the string,
+
+We focus on a certain time-region in which all diabolos keep contacting the string,
 without any attachment or detachment events.
-As these events are discrete in time,
+The primary goal is to obtain the time-development of the system (sticks and diabolos)
+for a given initial condition and input (the forces applied to sticks from hands).
+As attachment/detachment events are discrete in time,
 the real situation involving attachment and detachment (catch and throw)
 can be treated as the sequential time regions connected by those events.
 The solution we get here can easily be extended to such real situations
 by having a way to detect those events and a model for flying diabolos.
 
-Let N diabolos on the string. 
+### 1-1. Geometry
+
+Let N diabolos be on the string. 
 We number the objects from left to right, left stick being 0 and right stick being N+1, diabolos being 1,...,N.
 With these numberings, position $\boldsymbol{x_i} \: (i=0,...,N+1)$
  and their time-differentials velocity $\boldsymbol{u_i}$ and acceleration $\boldsymbol{a_i}$ are defined.
@@ -228,7 +231,7 @@ u_{i-1}^\beta \cos \psi_{i-1}
 \end{gather}
 $$
 
-### 1-2 Frictions
+### 1-2. Frictions
 
 One of the forces is the string tension.
 Due to frictions at diabolos, tension is different among string segments.
@@ -347,7 +350,7 @@ And the step function would be represented as a certain limit case.
 
 The discussion below holds for the linear regime, but not for the non-linear regime.
 
-### 1-2-Appendix: Capstan Equation
+### 1-2-Appendix. Capstan Equation
 
 <details>
 <summary>
@@ -421,7 +424,7 @@ but they can be easily derived as secondary results.)
 
 ## 2. Solution
 
-### 2-1. Deriviation of Accelerations
+### 2-1. Derivation of Accelerations
 
 First, tensions are linear to $T_0$ .
 
@@ -499,15 +502,11 @@ $$
 T_0 = G (\frac{F_0^\beta + F_{N+1}^\beta}{2} + F_C) \\
 G = \frac{2}{(1+d_N) + 2\frac{M}{m} 
 \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
-\begin{gathered}
 F_C
-= M \times \frac{-1}{2}(g (\cos \phi_0 + \cos \phi_{N+1})
-+(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
+= M \times \frac{1}{2}(-(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} )
 +2 \sum_{i=1}^{N}
-(-g\cos\phi_i\sin\psi_i -
-u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+(u_i^\alpha \dot{\phi_i} \sin\psi_i - 
 u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
-\end{gathered}\\
 \end{gather}
 $$
 
@@ -645,10 +644,112 @@ F_C = \frac{A_6}{2A_5}\\
 (-g\cos\phi_i\sin\psi_i -
 u_i^\alpha \dot{\phi_i} \sin\psi_i + 
 u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)) \\
+= M \times \frac{-1}{2}(
+(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) +
+2 \sum_{i=1}^{N}
+(- u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i)) \\
 \end{gather}
 $$
 
+The lemma was used at the last line.
+
 </details>
+
+<details>
+<summary>
+Lemma
+</summary>
+
+**Lemma**
+
+Let $ N \in \mathbb{N}, \phi_0, \psi_{1,2,...,N} \in \mathbb{R}$.  
+Let $\psi_0 = \psi_{N+1} = -\frac{\pi}{2}$.  
+Define $\phi_i := \phi_{i-1} + \psi_{i-1} + \psi_{i}$ for $i=1,2,...,N+1$.  
+
+Then,
+$$
+\begin{align}
+\cos\phi_0 + \cos\phi_{N+1} = 2\sum_{i=1}^{N} \cos\phi_i \sin\psi_i
+\end{align}
+$$
+
+**Proof 1 (by Kenya)**
+
+$$
+\begin{align}
+&2\sum_{i=1}^{N} \cos\phi_i \sin\psi_i \\
+&= \sum_{i=1}^{N} \sin(\phi_i + \psi_i) - \sin(\phi_i - \psi_i)\\
+&= \sum_{i=1}^{N} \sin(\phi_i + \psi_i) - \sin(\phi_{i-1} + \psi_{i-1})\\
+&= \sin(\phi_N + \psi_N) - \sin(\phi_0 + \psi_0) \\
+&= \sin(\phi_{N+1} - \psi_{N+1}) - \sin(\phi_0 + \psi_0) \\
+&= \cos\phi_{N+1} + \cos\phi_{0}
+\end{align}
+$$
+
+
+**Proof 2**
+
+The left side is,
+
+$$
+\begin{align}
+&S(N) := \sum_{i=1}^{N} \psi_i \\
+& \phi_{N+1} = \phi_0 - \pi + 2S \\
+&\cos\phi_0 + \cos\phi_{N+1} \\
+&= 2 (\sin \phi_0 \sin S \cos S + \cos\phi_0 \sin^2 S)
+\end{align}
+$$
+
+We prove the following with mathmatical induction,
+
+$$
+\begin{align}
+\sum_{i=1}^{N} \cos\phi_i \sin\psi_i
+= \sin \phi_0 \sin S \cos S + \cos\phi_0 \sin^2 S
+\end{align}
+$$
+
+If $N=1$,
+
+$$
+\begin{align}
+&\sum_{i=1}^{N} \cos\phi_i \sin\psi_i \\
+&= \cos\phi_1\sin\psi_1 = \sin (\phi_0 + \psi_1)\sin\psi_1 \\
+&= \sin\phi_0\sin\psi_1\cos\ + \cos\phi_0\sin^2\psi_1
+\end{align}
+$$
+
+Provided that the proposition holds for $N=k$, the left side for $N=k+1$ is,
+
+$$
+\begin{align}
+&\sin \phi_0 \sin S(k+1) \cos S(k+1) + \cos\phi_0 \sin^2 S(k+1)\\
+&= \sin\phi_0 (\sin\psi_{k+1}\cos\psi_{k+1}(\cos^2S(k) - \sin^2S(k))
++(\cos^2\psi_{k+1} - \sin^2\psi_{k+1})\sin S(k)\cos S(k)) \\
+&+ \cos\phi_0(\sin^2\psi_{k+1}\cos^2 S(k) + \cos^2\psi_{k+1}\sin^2 S(k) 
++2\sin\psi_{k+1}\cos\psi_{k+1}\sin S(k) \cos S(k)) \\
+\end{align}
+$$
+
+The right side is,
+
+$$
+\begin{align}
+&\sum_{i=1}^{k+1} \cos\phi_i \sin\psi_i \\
+&= \sum_{i=1}^{k} \cos\phi_i \sin\psi_i + \cos\phi_{k+1} \sin\psi_{k+1}\\
+&= \sin\phi_0 \sin S(k) \cos S(k) + \cos\phi_0\sin^2S(k) + \sin(\phi_0+\psi_{k+1}+2S(k))\sin\psi_{k+1}\\
+&= \sin\phi_0(\sin\psi_{k+1}\cos\psi_{k+1}(\cos^2S(k) - \sin^2S(k))
+(\cos^2\psi_{k+1}-\sin^2\psi_{k+1})\sin S(k) \cos S(k))\\
+&+ \cos\phi_0 (\sin^2\psi_{k+1}\cos^2S(k)+\cos\psi_{k+1}\sin^2S(k)
++2\sin\psi_{k+1}\cos_{k+1}\sin S(k)\cos S(k))\\
+\end{align}
+$$
+
+Thus the proposition also holds for $N=k+1$.
+
+</details>
+
 
 These quantities can be interpreted this way:
 the force you apply in the $\beta$ direction is linearly converted to the tension
@@ -952,13 +1053,24 @@ $$
 \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i}}
 \ne 0 \text{ (except special cases)}
 \\
-\boldsymbol{B}^{-1} = 
-\frac{1}{1-\frac{1+d_N}{2}G}
+\boldsymbol{B}^{-1} =
+\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 & (\det{\boldsymbol{B}})^{-1}& 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & (\det{\boldsymbol{B}})^{-1}
+\end{bmatrix}
 \begin{bmatrix}
 1 & 0 & 0 & 0\\
 0 &  \frac{2 - d_N G}{2}& 0 & \frac{G}{2} \\
 0 & 0 & 1 & 0\\
 0 & \frac{d_N G}{2} & 0 & \frac{2 - G}{2}
+\end{bmatrix}
+=\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 &  \frac{2 - d_N G}{2-(1+d_N)G}& 0 & \frac{G}{2-(1+d_N)G} \\
+0 & 0 & 1 & 0\\
+0 & \frac{d_N G}{2-(1+d_N)G} & 0 & \frac{2 - G}{2-(1+d_N)G}
 \end{bmatrix}
 \end{gather}
 \\
@@ -982,7 +1094,7 @@ this issue can possibly be resolved by capping the input forces.
 
 
 
-### 2-2 (Re-stating) Formula for Numerical Calculation
+### 2-2. Re-stating Formula for Numerical Calculation
 
 The system is expressed as:
 
@@ -1224,15 +1336,11 @@ c_i'(w_i') :=
 d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1) \\
 G = \frac{2}{(1+d_N) + 2\frac{M}{m} 
 \sum_{i=1}^{N} (d_i + d_{i-1})\sin^2 \psi_i} \\
-\begin{gathered}
 \hat{F}_C
-= \frac{-1}{2}(g (\cos \phi_0 + \cos \phi_{N+1})
-+(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} ) \\
+= \frac{1}{2}(-(u_0^\alpha \dot{\phi_0} +u_{N+1}^\alpha \dot{\phi_{N+1}} )
 +2 \sum_{i=1}^{N}
-(-g\cos\phi_i\sin\psi_i -
-u_i^\alpha \dot{\phi_i} \sin\psi_i + 
+(u_i^\alpha \dot{\phi_i} \sin\psi_i - 
 u_i^\beta \frac{\dot{\theta_i}}{2}\cos\psi_i))
-\end{gathered}
 \end{gather}
 $$
 
