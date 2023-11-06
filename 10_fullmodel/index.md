@@ -1092,7 +1092,149 @@ thus the forces for such accelerations go to infinity.
 Practically in the simulation, 
 this issue can possibly be resolved by capping the input forces.
 
+Additionally, if you release the stick 0, the input force for this stickwill be 0.
+If you want to input the stick N+1 by acceleration:
 
+$$
+\begin{gather}
+\begin{pmatrix}
+a_0^\alpha \\ 
+a_0^\beta\\ 
+a_{N+1}^\alpha \\ 
+a_{N+1}^\beta
+\end{pmatrix} =
+\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 & \frac{2 - G}{2} & 0 & - \frac{G}{2} \\
+0 & 0 & 1 & 0\\
+0 & -\frac{d_N G}{2} & 0 & \frac{2 - d_N G}{2}
+\end{bmatrix}
+\begin{pmatrix}
+0\\ 
+0\\ 
+\hat{F}_{N+1}^\alpha \\
+\hat{F}_{N+1}^\beta
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_0\\
+-g\cos\phi_0 - GF_C \\
+-g\sin\phi_{N+1}\\
+-g\cos\phi_{N+1} -d_N GF_C)
+\end{pmatrix} \\
+\begin{pmatrix}
+a_{N+1}^\alpha \\ 
+a_{N+1}^\beta
+\end{pmatrix} =
+\begin{bmatrix}
+1 & 0\\
+0 & \frac{2 - d_N G}{2}
+\end{bmatrix}
+\begin{pmatrix}
+\hat{F}_{N+1}^\alpha \\
+\hat{F}_{N+1}^\beta
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_{N+1}\\
+-g\cos\phi_{N+1} -d_N GF_C)
+\end{pmatrix} \\
+\begin{pmatrix}
+\hat{F}_{N+1}^x \\
+\hat{F}_{N+1}^y
+\end{pmatrix} =
+\boldsymbol{R}(\phi_{N+1})
+\begin{bmatrix}
+1 & 0\\
+0 & \frac{2}{2 - d_N G}
+\end{bmatrix}
+\boldsymbol{R}^{-1}(\phi_{N+1})
+\begin{pmatrix}
+a_{N+1}^x \\ 
+a_{N+1}^y
+\end{pmatrix}
++\boldsymbol{R}(\phi_{N+1})
+\begin{bmatrix}
+1 & 0\\
+0 & \frac{2}{2 - d_N G}
+\end{bmatrix}
+\begin{pmatrix}
+g\sin\phi_{N+1}\\
+g\cos\phi_{N+1} -d_N GF_C)
+\end{pmatrix}
+\end{gather}
+$$
+
+In the opposite case,
+
+$$
+\begin{gather}
+\begin{pmatrix}
+a_0^\alpha \\ 
+a_0^\beta\\ 
+a_{N+1}^\alpha \\ 
+a_{N+1}^\beta
+\end{pmatrix} =
+\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0 & \frac{2 - G}{2} & 0 & - \frac{G}{2} \\
+0 & 0 & 1 & 0\\
+0 & -\frac{d_N G}{2} & 0 & \frac{2 - d_N G}{2}
+\end{bmatrix}
+\begin{pmatrix}
+\hat{F}_{0}^\alpha \\
+\hat{F}_{0}^\beta  \\
+0\\ 
+0
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_0\\
+-g\cos\phi_0 - GF_C \\
+-g\sin\phi_{N+1}\\
+-g\cos\phi_{N+1} -d_N GF_C)
+\end{pmatrix} \\
+\begin{pmatrix}
+a_{0}^\alpha \\ 
+a_{0}^\beta
+\end{pmatrix} =
+\begin{bmatrix}
+1 & 0\\
+0 & \frac{2 - G}{2}
+\end{bmatrix}
+\begin{pmatrix}
+\hat{F}_{0}^\alpha \\
+\hat{F}_{0}^\beta
+\end{pmatrix}
++\begin{pmatrix}
+-g\sin\phi_0\\
+-g\cos\phi_0 - GF_C
+\end{pmatrix} \\
+\begin{pmatrix}
+\hat{F}_{0}^x \\
+\hat{F}_{0}^y
+\end{pmatrix} =
+\boldsymbol{R}(\phi_{0})
+\begin{bmatrix}
+1 & 0\\
+0 & \frac{2}{2 - G}
+\end{bmatrix}
+\boldsymbol{R}^{-1}(\phi_{0})
+\begin{pmatrix}
+a_{0}^x \\ 
+a_{0}^y
+\end{pmatrix}
++\boldsymbol{R}(\phi_{0})
+\begin{bmatrix}
+1 & 0\\
+0 & \frac{2}{2 - G}
+\end{bmatrix}
+\begin{pmatrix}
+g\sin\phi_{0}\\
+g\cos\phi_{0} -GF_C)
+\end{pmatrix}
+\end{gather}
+$$
+
+In these cases the forces always exist.
+(positive tension still needs validation)
 
 ### 2-2. Re-stating Formula for Numerical Calculation
 
