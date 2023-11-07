@@ -15,6 +15,8 @@
   - [2. Solution](#2-solution)
     - [2-1. Derivation of Accelerations](#2-1-derivation-of-accelerations)
     - [2-2. Re-stating Formula for Numerical Calculation](#2-2-re-stating-formula-for-numerical-calculation)
+  - [3. Loosening and Tensing Events](#3-loosening-and-tensing-events)
+    - [3-1. Impulse Model](#3-1-impulse-model)
 
 <!-- /code_chunk_output -->
 
@@ -31,13 +33,13 @@ We do consider the friction, in which the radius of the diabolo axel matters and
 That is, we consider the axel radius to be negligibly small compared to the length scale of string and point mass motions,
 which is usually a physically reasonable approximation.
 
-We focus on a certain time-region in which all diabolos keep contacting the string,
+We focus on a certain time segment in which all diabolos keep contacting the string,
 without any attachment or detachment events.
 The primary goal is to obtain the time-development of the system (sticks and diabolos)
 for a given initial condition and input (the forces applied to sticks from hands).
 As attachment/detachment events are discrete in time,
 the real situation involving attachment and detachment (catch and throw)
-can be treated as the sequential time regions connected by those events.
+can be treated as the sequential time segments connected by those events.
 The solution we get here can easily be extended to such real situations
 by having a way to detect those events and a model for flying diabolos.
 
@@ -352,14 +354,14 @@ The discussion below holds for the linear regime, but not for the non-linear reg
 
 ### 1-2-Appendix. Capstan Equation
 
+![fig10_2](./fig/fig-02.png)
+
 <details>
 <summary>
 Capstan Equation
 </summary>
 
 When accelerating, 
-
-![fig10_2](./fig/fig-02.png)
 
 $$
 \begin{gather}
@@ -512,7 +514,7 @@ $$
 
 <details>
 <summary>
-calculation
+Detailed calculation
 </summary>
 
 By the equations,
@@ -661,7 +663,7 @@ The lemma was used at the last line.
 Lemma
 </summary>
 
-**Lemma**
+<b>Lemma</b>
 
 Let $ N \in \mathbb{N}, \phi_0, \psi_{1,2,...,N} \in \mathbb{R}$.  
 Let $\psi_0 = \psi_{N+1} = -\frac{\pi}{2}$.  
@@ -674,7 +676,7 @@ $$
 \end{align}
 $$
 
-**Proof 1 (by Kenya)**
+<b>Proof (proven by my friend, Kenya)</b>
 
 $$
 \begin{align}
@@ -686,67 +688,6 @@ $$
 &= \cos\phi_{N+1} + \cos\phi_{0}
 \end{align}
 $$
-
-
-**Proof 2**
-
-The left side is,
-
-$$
-\begin{align}
-&S(N) := \sum_{i=1}^{N} \psi_i \\
-& \phi_{N+1} = \phi_0 - \pi + 2S \\
-&\cos\phi_0 + \cos\phi_{N+1} \\
-&= 2 (\sin \phi_0 \sin S \cos S + \cos\phi_0 \sin^2 S)
-\end{align}
-$$
-
-We prove the following with mathmatical induction,
-
-$$
-\begin{align}
-\sum_{i=1}^{N} \cos\phi_i \sin\psi_i
-= \sin \phi_0 \sin S \cos S + \cos\phi_0 \sin^2 S
-\end{align}
-$$
-
-If $N=1$,
-
-$$
-\begin{align}
-&\sum_{i=1}^{N} \cos\phi_i \sin\psi_i \\
-&= \cos\phi_1\sin\psi_1 = \sin (\phi_0 + \psi_1)\sin\psi_1 \\
-&= \sin\phi_0\sin\psi_1\cos\ + \cos\phi_0\sin^2\psi_1
-\end{align}
-$$
-
-Provided that the proposition holds for $N=k$, the left side for $N=k+1$ is,
-
-$$
-\begin{align}
-&\sin \phi_0 \sin S(k+1) \cos S(k+1) + \cos\phi_0 \sin^2 S(k+1)\\
-&= \sin\phi_0 (\sin\psi_{k+1}\cos\psi_{k+1}(\cos^2S(k) - \sin^2S(k))
-+(\cos^2\psi_{k+1} - \sin^2\psi_{k+1})\sin S(k)\cos S(k)) \\
-&+ \cos\phi_0(\sin^2\psi_{k+1}\cos^2 S(k) + \cos^2\psi_{k+1}\sin^2 S(k) 
-+2\sin\psi_{k+1}\cos\psi_{k+1}\sin S(k) \cos S(k)) \\
-\end{align}
-$$
-
-The right side is,
-
-$$
-\begin{align}
-&\sum_{i=1}^{k+1} \cos\phi_i \sin\psi_i \\
-&= \sum_{i=1}^{k} \cos\phi_i \sin\psi_i + \cos\phi_{k+1} \sin\psi_{k+1}\\
-&= \sin\phi_0 \sin S(k) \cos S(k) + \cos\phi_0\sin^2S(k) + \sin(\phi_0+\psi_{k+1}+2S(k))\sin\psi_{k+1}\\
-&= \sin\phi_0(\sin\psi_{k+1}\cos\psi_{k+1}(\cos^2S(k) - \sin^2S(k))
-(\cos^2\psi_{k+1}-\sin^2\psi_{k+1})\sin S(k) \cos S(k))\\
-&+ \cos\phi_0 (\sin^2\psi_{k+1}\cos^2S(k)+\cos\psi_{k+1}\sin^2S(k)
-+2\sin\psi_{k+1}\cos_{k+1}\sin S(k)\cos S(k))\\
-\end{align}
-$$
-
-Thus the proposition also holds for $N=k+1$.
 
 </details>
 
@@ -973,9 +914,9 @@ a_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
--g\cos\phi_0 - GF_C \\
+-g\cos\phi_0 - G\hat{F}_C \\
 -g\sin\phi_{N+1}\\
--g\cos\phi_{N+1} -d_N GF_C)
+-g\cos\phi_{N+1} -d_N G\hat{F}_C
 \end{pmatrix}
 =\boldsymbol{B}
 \begin{pmatrix}
@@ -1089,8 +1030,9 @@ such as the moment when a single diabolo is ejected from the string.
 In this case, positive $a_0^\beta + a_{N+1}^\beta$ is not physically 
 allowed as you cannnot stretch the string,
 thus the forces for such accelerations go to infinity.
-Practically in the simulation, 
-this issue can possibly be resolved by capping the input forces.
+Practically, in the simulation, 
+this issue can possibly be resolved by (1) capping the input forces,
+or (2) setting the minimal value for the denominator $(2-(1+d_N)G)$.
 
 Additionally, if you release the stick 0, the input force for this stickwill be 0.
 If you want to input the stick N+1 by acceleration:
@@ -1117,9 +1059,9 @@ a_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
--g\cos\phi_0 - GF_C \\
+-g\cos\phi_0 - G\hat{F}_C \\
 -g\sin\phi_{N+1}\\
--g\cos\phi_{N+1} -d_N GF_C)
+-g\cos\phi_{N+1} -d_N G\hat{F}_C
 \end{pmatrix} \\
 \begin{pmatrix}
 a_{N+1}^\alpha \\ 
@@ -1135,7 +1077,7 @@ a_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_{N+1}\\
--g\cos\phi_{N+1} -d_N GF_C)
+-g\cos\phi_{N+1} -d_N G\hat{F}_C
 \end{pmatrix} \\
 \begin{pmatrix}
 \hat{F}_{N+1}^x \\
@@ -1158,7 +1100,7 @@ a_{N+1}^y
 \end{bmatrix}
 \begin{pmatrix}
 g\sin\phi_{N+1}\\
-g\cos\phi_{N+1} -d_N GF_C)
+g\cos\phi_{N+1} -d_N G\hat{F}_C
 \end{pmatrix}
 \end{gather}
 $$
@@ -1187,9 +1129,9 @@ a_{N+1}^\beta
 \end{pmatrix}
 +\begin{pmatrix}
 -g\sin\phi_0\\
--g\cos\phi_0 - GF_C \\
+-g\cos\phi_0 - G\hat{F}_C \\
 -g\sin\phi_{N+1}\\
--g\cos\phi_{N+1} -d_N GF_C)
+-g\cos\phi_{N+1} -d_N G\hat{F}_C
 \end{pmatrix} \\
 \begin{pmatrix}
 a_{0}^\alpha \\ 
@@ -1228,7 +1170,7 @@ a_{0}^y
 \end{bmatrix}
 \begin{pmatrix}
 g\sin\phi_{0}\\
-g\cos\phi_{0} -GF_C)
+g\cos\phi_{0} -G\hat{F}_C
 \end{pmatrix}
 \end{gather}
 $$
@@ -1494,3 +1436,207 @@ $$
 \end{gather}
 $$
 
+, ohterwise the string gets loosened.
+
+## 3. Loosening and Tensing Events
+
+So far we limited the situation so that the string is not allowed to loosen.
+Practically, loosening occurs either intentionally as a part of a trick 
+or accidentally and transiently during manipulation.
+Loosened string is extremely complicated to model explicitly,
+and we do not intend to do so.
+The tricks that utilize loosened string, such as "slack" tricks,
+cannot be easily modeled and we will not even try.
+But some transient loosening and tensing events,
+without any change in the knot states,
+can be modeled relatively simply.
+In this section we aim to model such an event.
+
+### 3-1. Impulse Model
+
+In the above model, the string loosens when the tension becomes negative.
+Thus it is easy to detect.
+We limit the situation so that the knot states, such as string wrapping situations,
+do not change during the loosened period.
+In this case we are still able to calculate angles like $\theta$ and keep track of wrapping states.
+There is no tension, so the objects simply follow the free fall by gravity,
+in addition to input forces for sticks.
+Also the constraint no longer holds.
+The sum of string segments will be smaller than $L$.
+If the sum of string segments reach $L$, 
+that is when the tensing event occurs and the string is no longer loose.
+
+$$
+\begin{gather}
+\begin{aligned}
+M\boldsymbol{a_0}     &= M\boldsymbol{g} + \boldsymbol{F_0} \\
+M\boldsymbol{a_{N+1}} &= M\boldsymbol{g} + \boldsymbol{F_{N+1}} \\
+m\boldsymbol{a_i}     &= m\boldsymbol{g}\\
+\dot{w_i} &= -D w_i
+\end{aligned} \\
+\sum_{i=0}^{N} l_i < L \\
+\sum_{i=0}^{N} \dot{l_i}
+= u_0^\beta + u_{N+1}^\beta - 2\sum_{i=1}^{N} u_i^\beta \sin\psi_i 
+\ne 0\\
+\sum_{i=0}^{N} l_i = L \text{ : tensing event} \\
+\end{gather}
+$$
+
+The loosening event is very easy to introduce.
+Let's say the loosening event occurs at t,
+we know all the positions and velocities at t.
+We just start the simple free-fall simulation with these initial values.
+
+The tensing event, where the free-fall motions go back to constrained "diabolo motion",
+is harder to introduce.
+Let's say the tensing event occurs at t.
+In a very special case, objects smoothly lands on the string so that
+
+$$
+\begin{gather}
+\sum_{i=0}^{N} \dot{l_i} (t)
+= u_0^\beta (t) + u_{N+1}^\beta (t) - 2\sum_{i=1}^{N} u_i^\beta (t) \sin\psi_i (t)
+= 0\\
+\end{gather}
+$$
+
+This means the positions and velocities at time t satisfies the constraint,
+thus we can simply start the simulation of "diabolo motion" differential equations.
+
+In most cases, however, the objects will hit the string hard, so that
+
+$$
+\begin{gather}
+\sum_{i=0}^{N} \dot{l_i} (t)
+= u_0^\beta (t) + u_{N+1}^\beta (t) - 2\sum_{i=1}^{N} u_i^\beta (t) \sin\psi_i (t) > 0\\
+\end{gather}
+$$
+
+which does not satisfy the constraint.
+This means that an impulsive force (impulsive tension) will change the velocity at this moment.
+And the resulting velocities satisfies the constraint,
+and it will start the "diabolo motion" from there.
+
+We need to figure out the physics of this impulsive tension.
+Let this impulsive force $T^{imp}_{0,...,N}$ in the short duration of $[t , t+\Delta t]$.
+To get the friction factors $d_i$, it is better to re-define the relative rotational velocity:
+
+$$
+\begin{gather}
+w_i' := w_i - (\sum_{j=0}^{i-1}{\dot{l_j}} - \sum_{j=i}^{N}{\dot{l_j}})/2\\
+=w_i - (
+u_0^\beta + u_i^{\alpha} \cos \psi_i - u_i^{\beta} \sin \psi_i -
+2\sum_{j=1}^{i-1} u_j^{\beta} \sin \psi_j) + 
+(u_0^\beta + u_{N+1}^\beta - 2\sum_{j=1}^{N} u_j^\beta \sin\psi_j
+)/2\\ 
+=w_i + \frac{-u_0^\beta + u_{N+1}^\beta}{2}
+-u_i^{\alpha} \cos \psi_i
++\sum_{j=1}^{i-1} u_i^\beta \sin\psi_i - \sum_{j=i+1}^{N} u_j^\beta \sin\psi_j
+\end{gather}
+$$
+
+Then the $d_i$ can be calculated, and impulsive forces follow the same friction law:
+
+$$
+\begin{gathered}
+T^{imp}_i = T^{imp}_0 \times d_i \\
+d_i := \prod_{j=1}^{i} f(w_j',\theta_i') = \exp(\sum_{j=1}^{i} c_j' \theta_j') \;\;\; (d_0 := 1)
+\end{gathered}
+$$
+
+From the equations of motions,
+
+$$
+\begin{gather}
+\begin{pmatrix}
+\Delta u_0^{\alpha} \\ \Delta u_0^{\beta}
+\end{pmatrix}
+=\frac{1}{M}\begin{pmatrix}
+0 \\ -T^{imp}_0
+\end{pmatrix}
+\Delta t\\
+\begin{pmatrix}
+\Delta u_{N+1}^{\alpha} \\ \Delta u_{N+1}^{\beta}
+\end{pmatrix}
+=\frac{1}{M}\begin{pmatrix}
+0 \\ -T^{imp}_{0} d_{N}
+\end{pmatrix}
+\Delta t\\
+\begin{pmatrix}
+\Delta u_{i}^{\alpha} \\ \Delta u_{i}^{\beta}
+\end{pmatrix}
+=\frac{T^{imp}_0}{m} \begin{pmatrix}
+(d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
+\end{pmatrix}
+\Delta t
+\; (i=1,...,N)
+\end{gather}
+$$
+
+After the impulse, the velocities needs to satisfy the constraint:
+
+$$
+\begin{gathered}
+\sum_{i=0}^{N} \dot{l_i} (t+\Delta t)\\
+=(u_0^\beta (t) + u_{N+1}^\beta (t) - 2\sum_{i=1}^{N} u_i^\beta (t) \sin\psi_i)
++(\Delta u_0^\beta + \Delta u_{N+1}^\beta - 2\sum_{i=1}^{N} \Delta u_i^\beta \sin\psi_i)\\
+=0\\
+\end{gathered}
+$$
+
+Therefore,
+
+$$
+\begin{gather}
+T_0^{imp}\Delta t (
+\frac{1+d_N}{M} + 2\sum_{i=1}^{N} \frac{(d_i + d_{i-1})\sin^2\psi_i}{m}
+)
+=(u_0^\beta (t) + u_{N+1}^\beta (t) - 2\sum_{i=1}^{N} u_i^\beta (t) \sin\psi_i)\\
+\frac{T_0^{imp}\Delta t}{M}
+=\frac{u_0^\beta (t) + u_{N+1}^\beta (t) - 2\sum_{i=1}^{N} u_i^\beta (t) \sin\psi_i}
+{(1+d_N) + 2\frac{M}{m}\sum_{i=1}^{N} (d_i + d_{i-1})\sin^2\psi_i}
+=\frac{G(t) \sum_{i=0}^{N} \dot{l_i} (t)}{2}
+\end{gather}
+$$
+
+By substitution,
+
+$$
+\begin{gather}
+\begin{pmatrix}
+\Delta u_0^{\alpha} \\ 
+\Delta u_0^{\beta} \\
+\Delta u_{N+1}^{\alpha} \\ 
+\Delta u_{N+1}^{\beta}
+\end{pmatrix}
+=\frac{-G(t) \sum_{i=0}^{N} \dot{l_i} (t)}{2}
+\begin{pmatrix}
+0 \\ 1 \\
+0 \\ d_{N}
+\end{pmatrix}
+\\
+\begin{pmatrix}
+\Delta u_{i}^{\alpha} \\ \Delta u_{i}^{\beta}
+\end{pmatrix}
+=\frac{M G(t) \sum_{i=0}^{N} \dot{l_i} (t)}{2m}
+\begin{pmatrix}
+(d_{i} - d_{i-1}) \cos\psi_i \\ (d_{i} + d_{i-1}) \sin\psi_i
+\end{pmatrix}
+\; (i=1,...,N)
+\end{gather}
+$$
+
+Additionally,
+
+$$
+\begin{gather}
+\Delta{w_i}
+=-\frac{(d_i - d_{i-1})T_0^{imp}}{mJ} \Delta t
+=-\frac{M(d_i - d_{i-1})G(t) \sum_{i=0}^{N} \dot{l_i} (t)}{2mJ}
+\end{gather}
+$$
+
+These provide the full consequences of the impulsive tension.
+At the event of tensing,
+these velocity shifts need be calculated,
+then the "diabolo motion" differential equations can be initiated.
