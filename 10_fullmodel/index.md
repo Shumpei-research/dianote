@@ -285,8 +285,8 @@ Then, the relative volocity $w_i'$ is,
 $$
 \begin{equation}
 \begin{gathered}
-w_i' := w_i - \sum_{j=0}^{i-1}{\dot{l_j}} \\
-=w_i - (
+w_i' := w_i \pm \sum_{j=0}^{i-1}{\dot{l_j}} \; (\text{- if }\theta>0,\text{+ if }\theta<0)\\
+=w_i \pm (
 u_0^\beta + u_i^{\alpha} \cos \psi_i - u_i^{\beta} \sin \psi_i -
 2\sum_{j=1}^{i-1} u_j^{\beta} \sin \psi_j
 ) 
